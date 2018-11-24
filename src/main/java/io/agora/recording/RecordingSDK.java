@@ -1,8 +1,5 @@
 package io.agora.recording;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +8,6 @@ import io.agora.recording.common.Common.VideoFrame;
 import io.agora.recording.common.Common.VideoMixingLayout;
 import io.agora.recording.common.RecordingConfig;
 import io.agora.recording.common.RecordingEngineProperties;
-import io.agora.recording.utils.LibLoader;
 
 public class RecordingSDK {
 
@@ -23,8 +19,8 @@ public class RecordingSDK {
 
     static {
         //System.loadLibrary("recording");
-		//System.loadLibrary("recording");
-		LibLoader.loadLib("librecording.so");
+		System.load("/usr/local/java/jdk/jni/librecording.so");
+		//LibLoader.loadLib("librecording.so");
     }
 
 	public RecordingSDK() {

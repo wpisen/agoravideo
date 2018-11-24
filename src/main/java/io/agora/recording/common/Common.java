@@ -88,7 +88,8 @@ public class Common{
     private VIDEO_FORMAT_TYPE(int value) {
     this.value = value;
     }
-    private int getValue(){
+    @SuppressWarnings("unused")
+	private int getValue(){
       return value; 
     }
   }
@@ -102,7 +103,8 @@ public class Common{
     private AUDIO_FORMAT_TYPE(int value) {
       this.value = value;
     }
-    private int getValue(){
+    @SuppressWarnings("unused")
+	private int getValue(){
       return value;
     }
   }

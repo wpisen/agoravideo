@@ -23,16 +23,6 @@ public class ApiRespResult<T> implements Serializable {
     private String msg = ApiResultCode.SUCCESS.getMessage();
 
     /**
-     * 扩展对象(放置分页信息、其他信息等)
-     */
-    private Object extendData;
-    
-    /**
-     * 参数数组
-     */
-    private Object[] params;
-    
-    /**
      * 返回结果的数据对象
      */
     private T data;
@@ -47,12 +37,6 @@ public class ApiRespResult<T> implements Serializable {
     public ApiRespResult(String code, String message){
     	this.code = code;
     	this.msg = message;
-    }
-    
-    public ApiRespResult(String code, String message,Object... params){
-    	this.code = code;
-    	this.msg = message;
-    	this.params = params;
     }
     
     public ApiRespResult(ApiResultCode apiResultCode){
@@ -70,18 +54,6 @@ public class ApiRespResult<T> implements Serializable {
     
     public static <T> ApiRespResult<T> error(ApiResultCode apiResultCode,T data){
     	return new ApiRespResult<T>(apiResultCode).setData(data);
-    }
-    
-    public static <T> ApiRespResult<T> error(ApiResultCode apiResultCode,Object...params){
-    	return new ApiRespResult<T>(apiResultCode.getCode(),String.format(apiResultCode.getMessage(),params),params);
-    }
-    
-    public static <T> ApiRespResult<T> error(ApiResultCode apiResultCode,String param){
-        return new ApiRespResult<T>(apiResultCode.getCode(),String.format(apiResultCode.getMessage(),param),new Object[]{param});
-    }
-    
-    public static <T> ApiRespResult<T> error(ApiResultCode apiResultCode,T data,Object...params){
-    	return new ApiRespResult<T>(apiResultCode.getCode(),String.format(apiResultCode.getMessage(),params),params).setData(data);
     }
     
 	public static <T> ApiRespResult<T> error(String msg){
@@ -110,11 +82,6 @@ public class ApiRespResult<T> implements Serializable {
     	return ar;
     }
    	
-	public static <T> ApiRespResult<T> success(T data,Object extendData){
-    	ApiRespResult<T> ar = new ApiRespResult<T>(ApiResultCode.SUCCESS);
-    	return ar.setData(data).setExtendData(extendData);
-    }
-	
 	public ApiRespResult<T> setRespMsg(ApiResultCode apiResultCode){
     	this.code = apiResultCode.getCode();
     	this.msg = apiResultCode.getMessage();
@@ -138,29 +105,6 @@ public class ApiRespResult<T> implements Serializable {
         return this;
     }
     
-    public ApiRespResult<T> setMsg(String msg,Object...params) {
-        this.msg = String.format(msg,params);
-        this.params = params;
-        return this;
-    }
-
-    public Object getExtendData() {
-        return extendData;
-    }
-
-    public ApiRespResult<T> setExtendData(Object extendData) {
-        this.extendData = extendData;
-        return this;
-    }
-
-    public Object[] getParams() {
-		return params;
-	}
-
-	public void setParams(Object[] params) {
-		this.params = params;
-	}
-
 	public T getData() {
         return data;
     }
@@ -172,6 +116,6 @@ public class ApiRespResult<T> implements Serializable {
 
 	@Override
 	public String toString() {
-		return "[code=" + code + ", msg=" + msg + ", extendData=" + extendData + ", data=" + data + "]";
+		return "[code=" + code + ", msg=" + msg + ", data=" + data + "]";
 	}
 }

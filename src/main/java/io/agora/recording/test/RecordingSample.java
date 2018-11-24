@@ -1,21 +1,13 @@
 package io.agora.recording.test;
-import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import io.agora.recording.common.Common;
 import io.agora.recording.common.Common.AUDIO_FORMAT_TYPE;
@@ -24,7 +16,6 @@ import io.agora.recording.common.Common.CHANNEL_PROFILE_TYPE;
 import io.agora.recording.common.Common.REMOTE_VIDEO_STREAM_TYPE;
 import io.agora.recording.common.Common.VIDEO_FORMAT_TYPE;
 import io.agora.recording.common.Common.VideoFrame;
-import io.agora.recording.common.Common.VideoMixingLayout;
 import io.agora.recording.common.RecordingConfig;
 import io.agora.recording.common.RecordingEngineProperties;
 
@@ -59,15 +50,7 @@ public class RecordingSample implements RecordingEventHandler {
 		RecordingSDKInstance.registerOberserver(this);
 	}
 
-    public static void main(String[] args) {
-        //should config -Djava.library.path to load library
-        RecordingSDK RecordingSdk = new RecordingSDK();
-        RecordingSample ars = new RecordingSample(RecordingSdk);
-        ars.createChannel(args);
-        ars.unRegister();
-    }
-
-	public void unRegister(){
+    public void unRegister(){
 		RecordingSDKInstance.unRegisterOberserver(this);	
 	}
 
@@ -95,7 +78,7 @@ public class RecordingSample implements RecordingEventHandler {
     if(config.decodeAudio != AUDIO_FORMAT_TYPE.AUDIO_FORMAT_DEFAULT_TYPE) {
       cleanTimer.schedule(new RecordingCleanTimer(this), 3000);
     }
-    System.out.println("RecordingSDK joinChannel success, channelId:" + channelId +", uid:" + uid);
+    System.out.println("RecordingSDK "+this.toString()+" joinChannel success, channelId:" + channelId +", uid:" + uid);
   }
 
 	public void onUserOffline(long uid, int reason) {
@@ -216,7 +199,7 @@ public class RecordingSample implements RecordingEventHandler {
       buf = frame.yuv.buf;
       size = frame.yuv.bufSize;
 			if (buf == null) {
-				System.out.println("java demo videoFrameReceived null");
+				System.out.println("java videoFrameReceived null");
 			}
 		} else if (type == 1) {// h264
 			buf = frame.h264.buf;
@@ -241,7 +224,7 @@ public class RecordingSample implements RecordingEventHandler {
 	 * Brief: Callback when JNI layer exited
 	 */
 	public void stopCallBack() {
-		System.out.println("java demo receive stop from JNI ");
+		System.out.println("java receive stop from JNI ");
 	}
 
 	/*
@@ -345,6 +328,10 @@ public class RecordingSample implements RecordingEventHandler {
 		for (Long l : m_peers) {
 			System.out.println("user:" + l);
 		}
+		if(vector.size() == 0) {
+			System.out.println("stop recording "+mNativeHandle);
+			this.leaveChannel(mNativeHandle);
+		}
 	}
 
 	public void createChannel(String[] args) {
@@ -356,9 +343,9 @@ public class RecordingSample implements RecordingEventHandler {
 
 		String decryptionMode = "";
 		String secret = "";
-		String mixResolution = "360,640,15,500";
+		String mixResolution = "720,1280,45,1200";
 
-		int idleLimitSec = 5 * 60;// 300s
+		int idleLimitSec = 1 * 60;// 60s
 
 		String applitePath = "";
         String recordFileRootDir = "";
@@ -528,7 +515,7 @@ public class RecordingSample implements RecordingEventHandler {
 		// run jni event loop , or start a new thread to do it
     	cleanTimer = new Timer();
 		RecordingSDKInstance.createChannel(appId, channelKey, name, uid, config);
-    	cleanTimer.cancel();
+		cleanTimer.cancel();
     	cleanTimer = null;
 		System.out.println("jni layer has been exited...");
 	}
@@ -542,10 +529,22 @@ public class RecordingSample implements RecordingEventHandler {
     public int stopService(long nativeHandle) {
         return RecordingSDKInstance.stopService(nativeHandle);
     }
-
-    public RecordingEngineProperties getProperties(long nativeHandle) {
+    public boolean leaveChannel() { 
+        return RecordingSDKInstance.leaveChannel(this.mNativeHandle);
+    }
+    public int stopService() {
+        return RecordingSDKInstance.stopService(this.mNativeHandle);
+    }
+	public RecordingEngineProperties getProperties(long nativeHandle) {
         return RecordingSDKInstance.getProperties(nativeHandle);
     }
-
+	
+    public static void main(String[] args) {
+	    //should config -Djava.library.path to load library
+	    RecordingSDK RecordingSdk = new RecordingSDK();
+	    RecordingSample ars = new RecordingSample(RecordingSdk);
+	    ars.createChannel(args);
+	    ars.unRegister();
+	}
   
 }
