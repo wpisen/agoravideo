@@ -86,6 +86,10 @@ public class RecordingSample implements RecordingEventHandler {
 		m_peers.remove(uid);
 		PrintUsersInfo(m_peers);
 		SetVideoMixingLayout();
+		
+		//只要任意用户推出就停止录像
+		System.out.println("stop recording "+mNativeHandle);
+		this.leaveChannel(mNativeHandle);
 	}
 
     protected void clean() {
@@ -327,10 +331,6 @@ public class RecordingSample implements RecordingEventHandler {
 		System.out.println("user size:" + vector.size());
 		for (Long l : m_peers) {
 			System.out.println("user:" + l);
-		}
-		if(vector.size() == 0) {
-			System.out.println("stop recording "+mNativeHandle);
-			this.leaveChannel(mNativeHandle);
 		}
 	}
 
