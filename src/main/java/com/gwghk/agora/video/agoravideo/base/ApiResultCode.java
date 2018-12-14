@@ -41,6 +41,8 @@ public enum ApiResultCode{
     E5("5","sequence.get.failed"),
     /**文件格式有误*/
     E6("6","incorrect.file.format"),
+	/**文件大小超过限制*/
+	E7("7", "文件大小超过限制"),
     
 	/**包含非法字符*/
 	E100001("10001","bos.contains.illegal.characters"),
