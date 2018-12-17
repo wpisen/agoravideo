@@ -1,6 +1,6 @@
 package com.gwghk.agora.video.agoravideo.model;
 
-public class IdCardResqDto {
+public class IdCardOtherSideResqDto {
   
     /**
      * 错误码，0 为成功
@@ -19,13 +19,13 @@ public class IdCardResqDto {
     /**
      * 具体查询数据
      */
-    private IdCardDto data;
+    private IdCardOtherSideDto data;
 
-    public IdCardDto getData() {
+    public IdCardOtherSideDto getData() {
         return data;
     }
 
-    public void setData(IdCardDto data) {
+    public void setData(IdCardOtherSideDto data) {
         this.data = data;
     }
     

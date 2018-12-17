@@ -19,7 +19,8 @@ import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
 import com.gwghk.agora.video.agoravideo.model.AliveResqDto;
 import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
-import com.gwghk.agora.video.agoravideo.model.IdCardResqDto;
+import com.gwghk.agora.video.agoravideo.model.IdCardPositiveResqDto;
+import com.gwghk.agora.video.agoravideo.model.IdCardOtherSideResqDto;
 import com.gwghk.agora.video.agoravideo.model.IdentityResqDto;
 import com.gwghk.agora.video.agoravideo.util.HttpClientUtil;
 import com.gwghk.agora.video.agoravideo.util.JsonUtil;
@@ -79,18 +80,26 @@ public class DemoController {
             if(StringUtils.isNotBlank(str)){
                 Map<String, Object> map = JsonUtil.json2Map(str);
                 Object obj = map.get("result_list");
-                List<IdCardResqDto> list = null;
                 if (obj != null) {
-                    list =  JsonUtil.json2List(obj.toString(), IdCardResqDto.class);
+                    CommonResqDto commonResqDto = new CommonResqDto();
+                    if(cardType.equals(0)){//为识别身份证有照片的一面
+                        List<IdCardPositiveResqDto>  list =  JsonUtil.json2List(obj.toString(), IdCardPositiveResqDto.class);
+                        if(list!=null && list.size()>0){
+                            IdCardPositiveResqDto idCardResqDto = list.get(0);
+                            commonResqDto.setFlag(idCardResqDto.getCode().equals("0")?1:0);//code返回0表示cardType要求验证的结果一致，标记为1
+                            commonResqDto.setResultDetails(idCardResqDto);
+                        }
+                    }else if(cardType.equals(1)){
+                        List<IdCardOtherSideResqDto>  list =  JsonUtil.json2List(obj.toString(), IdCardOtherSideResqDto.class);
+                        if(list!=null && list.size()>0){
+                            IdCardOtherSideResqDto idCardResqDto = list.get(0);
+                            commonResqDto.setFlag(idCardResqDto.getCode().equals("0")?1:0);//code返回0表示cardType要求验证的结果一致，标记为1
+                            commonResqDto.setResultDetails(idCardResqDto);
+                        }
+                    }
+                    ValidateUtil.addResult(orcIdCord_no+cardType+"_"+channelNo, commonResqDto);
+                    result =  ApiRespResult.success(commonResqDto);
                 }
-                CommonResqDto commonResqDto = new CommonResqDto();
-                if(list!=null && list.size()>0){
-                    IdCardResqDto idCardResqDto = list.get(0);
-                    commonResqDto.setFlag(idCardResqDto.getCode().equals("0")?1:0);//code返回0表示cardType要求验证的结果一致，标记为1
-                    commonResqDto.setResultDetails(idCardResqDto);
-                }
-                ValidateUtil.addResult(orcIdCord_no+cardType+"_"+channelNo, commonResqDto);
-                result =  ApiRespResult.success(commonResqDto);
             }            
             return result;
         } catch (Exception e) {
