@@ -77,6 +77,12 @@ public class IntelligentController {
     @Value("${file.accessPath}")
     private String fileAccessPath;
 
+    /**
+     * 语音结果匹配词语
+     */
+    @Value("${matching.word}")
+    private String matchingWord;
+
 
     /**
      * @api {post} /voice/asr 1、语音识别接口
@@ -162,9 +168,7 @@ public class IntelligentController {
                     responseMap = JSONObject.parseObject(String.valueOf(o), Map.class);
                     String identityTxResult = String.valueOf(responseMap.get("Result"));
                     if (null != identityTxResult) {
-                        ApiRespResult apiRespResult = ApiRespResult.success();
-                        apiRespResult.setData(identityTxResult);
-                        return apiRespResult;
+                        return identityTxResult.equals(matchingWord) ? ApiRespResult.success() : ApiRespResult.error(ApiResultCode.FAIL, identityTxResult);
                     }
                 }
             }
