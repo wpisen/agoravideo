@@ -5,7 +5,7 @@ import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
 import com.gwghk.agora.video.agoravideo.base.Setting;
 import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
-import com.gwghk.agora.video.agoravideo.dto.SignatureUtil;
+import com.gwghk.agora.video.agoravideo.utils.SignatureUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -260,9 +260,12 @@ public class IntelligentController {
                     if (null != identityTxResult) {
                         logger.debug("textToVoiceTxHttp-->存储音频文件信息，begin，{}", fileStorePath + params.get("SessionId"));
                         long beginSaveTime = System.nanoTime();
-                        SignatureUtil.decoderBase64File(identityTxResult, fileStorePath + params.get("SessionId") + ".wav");
+                        String fileName = params.get("SessionId") + ".wav";
+                        SignatureUtil.decoderBase64File(identityTxResult, fileStorePath + fileName);
                         logger.debug("textToVoiceTxHttp-->存储音频文件信息，耗时={}ms，end，{}", (System.nanoTime()-beginSaveTime)/1000000,fileStorePath + params.get("SessionId"));
-                        return ApiRespResult.success();
+                        ApiRespResult apiRespResult = ApiRespResult.success();
+                        apiRespResult.setData(fileAccessPath + fileName);
+                        return apiRespResult;
                     }
                 }
             }
