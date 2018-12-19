@@ -1,12 +1,12 @@
 package com.gwghk.agora.video.agoravideo.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.alibaba.fastjson.JSON;
+import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
+import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
+import com.gwghk.agora.video.agoravideo.model.*;
+import com.gwghk.agora.video.agoravideo.util.HttpClientUtil;
+import com.gwghk.agora.video.agoravideo.util.JsonUtil;
+import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
-import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
-import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
-import com.gwghk.agora.video.agoravideo.model.AliveResqDto;
-import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
-import com.gwghk.agora.video.agoravideo.model.IdCardPositiveResqDto;
-import com.gwghk.agora.video.agoravideo.model.IdCardOtherSideResqDto;
-import com.gwghk.agora.video.agoravideo.model.IdentityResqDto;
-import com.gwghk.agora.video.agoravideo.util.HttpClientUtil;
-import com.gwghk.agora.video.agoravideo.util.JsonUtil;
-import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 摘要：demo
@@ -42,19 +36,14 @@ public class DemoController {
     private static String alive_no="C_ALIVE_";//图像活体检测 
     
     /**
-     * 功能：身份证ocr识别
-     * 
-     * @param cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。
-     */
-
-    /**
-     * @api {post} /ocr/idCard" 1、身份证ocr识别
+     * @api {post/get} /ocr/idCard 1、身份证ocr识别
      * @apiDescription 身份证ocr识别
-     * @apiGroup group000_check
-     * @apiName ocr
+     * @apiGroup group000_Intelligent voice
+     * @apiName ocrIdCard
      * @apiVersion 1.0.0
      * @apiSampleRequest /ocr/idCard
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} channelNo 通道信息
      * @apiParam {String} imgUrl 图片地址信息
      * @apiParam {String} cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。
@@ -140,18 +129,16 @@ public class DemoController {
         }
     }
 
-    /**
-     * 功能：图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
-     */
 
     /**
-     * @api {post} /check/identity 2、图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
+     * @api {post/get} /check/identity 2、图像人身核实
      * @apiDescription 图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
-     * @apiGroup group000_check
-     * @apiName check
+     * @apiGroup group000_Intelligent voice
+     * @apiName checkIdentity
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/identity
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} channelNo 通道信息
      * @apiParam {String} idcardNumber 证件号
      * @apiParam {String} idcardName 证件名称
@@ -230,18 +217,16 @@ public class DemoController {
         }        
     }
 
-    /**
-     * 功能：图像活体检测 (人脸静态活体检测) 0,1
-     */
 
     /**
-     * @api {post} /check/alive 3、图像活体检测 (人脸静态活体检测) 0,1
-     * @apiDescription 图像活体检测
-     * @apiGroup group000_check
-     * @apiName check
+     * @api {post/get} /check/alive 3、图像活体检测
+     * @apiDescription 图像活体检测 (人脸静态活体检测) 0,1
+     * @apiGroup group000_Intelligent voice
+     * @apiName checkAlive
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/alive
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} imgUrl 图片地址信息
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义

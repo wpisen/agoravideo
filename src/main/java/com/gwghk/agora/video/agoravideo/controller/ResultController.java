@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 获取结果信息
+ * 获取结果信息接口
  */
 @RestController
 @RequestMapping("/result")
@@ -19,13 +19,14 @@ public class ResultController {
     protected final static Logger logger = LoggerFactory.getLogger(ResultController.class);
 
     /**
-     * @api {post} /result/get 1、根据通道获取结果信息
+     * @api {post/get} /result/get 6、根据通道获取结果信息
      * @apiDescription 获取结果信息
-     * @apiGroup group000_result
-     * @apiName voice
+     * @apiGroup group000_Intelligent voice
+     * @apiName getResult
      * @apiVersion 1.0.0
      * @apiSampleRequest /result/get
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
@@ -36,8 +37,8 @@ public class ResultController {
      * "code": "0" ,
      * "msg": "success",
      * "data": {
-     * <p>
-     * }
+     *
+     *  }
      * }
      * @apiErrorExample {Json} 失败响应示例:
      * {
@@ -48,10 +49,10 @@ public class ResultController {
      */
 
     @RequestMapping(value = "/get")
-    public ApiRespResult identity(IntelligentDto dto, String channelNo) {
+    public ApiRespResult getResult(IntelligentDto dto, String channelNo) {
         try {
             dto.setChannelNo(channelNo);
-            logger.debug("identity-->dto={}", dto);
+            logger.debug("getResult-->dto={}", dto);
             if (StringUtils.isEmpty(dto.getChannelNo())) {
                 return ApiRespResult.error(ApiResultCode.E1);
             }

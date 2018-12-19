@@ -3,17 +3,15 @@ package com.gwghk.agora.video.agoravideo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
+import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
 import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
 import com.gwghk.agora.video.agoravideo.util.Setting;
-import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
 import com.gwghk.agora.video.agoravideo.util.SignatureUtil;
 import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -91,13 +89,14 @@ public class IntelligentController {
     private final static String asr="V_ASR";
 
     /**
-     * @api {post} /voice/asr 1、语音识别接口
-     * @apiDescription 文件上传
-     * @apiGroup group000_voice
-     * @apiName voice
+     * @api {post/get} /voice/asr 4、语音识别接口
+     * @apiDescription 语音识别接口
+     * @apiGroup group000_Intelligent voice
+     * @apiName identity
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/asr
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} url 音频地址信息
      * @apiParam {String} voiceFormat 音频格式信息
      * @apiParam {String} channelNo 通道信息
@@ -127,7 +126,7 @@ public class IntelligentController {
      * }
      */
 
-    @PostMapping("/asr")
+    @RequestMapping("/asr")
     public ApiRespResult identity(IntelligentDto dto,String url,String voiceFormat,String channelNo) {
         try {
             dto.setUrl(url);
@@ -207,13 +206,14 @@ public class IntelligentController {
 
 
     /**
-     * @api {post} /voice/tts 2、语音合成接口
+     * @api {post/get} /voice/tts 5、语音合成接口
      * @apiDescription 语音合成接口
-     * @apiGroup group000_voice
-     * @apiName voice
+     * @apiGroup group000_Intelligent voice
+     * @apiName textToVoice
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/tts
      * @apiPermission admin
+     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} text 合成语音文字信息
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
@@ -242,7 +242,7 @@ public class IntelligentController {
      * }
      */
 
-    @PostMapping("/tts")
+    @RequestMapping("/tts")
     public ApiRespResult textToVoice(IntelligentDto dto,String text,String channelNo) {
         try {
             dto.setText(text);
