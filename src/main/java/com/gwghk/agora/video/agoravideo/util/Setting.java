@@ -1,4 +1,4 @@
-package com.gwghk.agora.video.agoravideo.base;
+package com.gwghk.agora.video.agoravideo.util;
 
 /**
  * 基本枚举信息

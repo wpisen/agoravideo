@@ -1,4 +1,4 @@
-package com.gwghk.agora.video.agoravideo.utils;
+package com.gwghk.agora.video.agoravideo.util;
 
 import sun.misc.BASE64Decoder;
 
