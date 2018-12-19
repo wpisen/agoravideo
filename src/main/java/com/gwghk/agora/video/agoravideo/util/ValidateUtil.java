@@ -2,6 +2,7 @@ package com.gwghk.agora.video.agoravideo.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
 
@@ -17,7 +18,9 @@ public class ValidateUtil {
     public static String demoApiUrl="http://recognition.image.myqcloud.com"; 
 
     private static Map<String,CommonResqDto> resultMap = new HashMap<String,CommonResqDto>();
-    
+
+
+    private static Map<String,Map<String,Object>> finishResultMap = new ConcurrentHashMap<>();
 
     public static void addResult(String key,CommonResqDto value){
         resultMap.put(key, value);
@@ -37,6 +40,25 @@ public class ValidateUtil {
         return headers;
     }
 
- 
-    
+    /**
+     * 将认证信息存放于内存中，便于后期使用
+     * @param key 通道key
+     * @param type 类型
+     * @param value value
+     */
+    public static void addResult(String key,String type,CommonResqDto value){
+        Map<String,Object> tMap = finishResultMap.containsKey(key) ? finishResultMap.get(key) : new HashMap();
+        tMap.put(type,value);
+        finishResultMap.put(key, tMap);
+    }
+
+    /**
+     * 获取结果值信息
+     * @param key 通道信息
+     * @return 返回通道对于的所有认证信息
+     */
+
+    public static Object getResult(String key){
+        return  finishResultMap.get(key);
+    }
 }

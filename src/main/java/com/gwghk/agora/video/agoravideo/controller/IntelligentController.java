@@ -3,9 +3,11 @@ package com.gwghk.agora.video.agoravideo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
+import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
 import com.gwghk.agora.video.agoravideo.util.Setting;
 import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
 import com.gwghk.agora.video.agoravideo.util.SignatureUtil;
+import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -84,6 +86,10 @@ public class IntelligentController {
     private String matchingWord;
 
 
+    private final static String tts="V_TTS";
+
+    private final static String asr="V_ASR";
+
     /**
      * @api {post} /voice/asr 1、语音识别接口
      * @apiDescription 文件上传
@@ -92,20 +98,26 @@ public class IntelligentController {
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/asr
      * @apiPermission admin
-     * @apiHeader {String} Url 音频地址信息
+     * @apiParam {String} url 音频地址信息
      * @apiParam {String} voiceFormat 音频格式信息
+     * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
-     * @apiSuccess (成功响应) {Json} data   上传成功后返回参数
-     * @apiSuccess (成功响应) {String} data.accessUrl     上传成功后文件访问路径
-     * @apiSuccess (成功响应) {String} data.storageName   上传成功后服务器存储的文件名
-     * @apiSuccess (成功响应) {String} data.fileName      上传的文件原文件名
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 -1:检测不到或各异常；0:与期望结果不一致，1:与期望结果一致
+     * @apiSuccess (成功响应) {Json} data.resultDetails   原始语音信息
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
-     * "data": "你好"
+     * "data": {
+     *      "V_ASR": {
+     *             "flag": 0,
+     *             "otherData": null,
+     *             "resultDetails": "请问你叫什么名字。"
+     *         }
+     * }
      * }
      * @apiErrorExample {Json} 失败响应示例:
      * {
@@ -116,8 +128,11 @@ public class IntelligentController {
      */
 
     @PostMapping("/asr")
-    public ApiRespResult identity(@RequestBody IntelligentDto dto) {
+    public ApiRespResult identity(IntelligentDto dto,String url,String voiceFormat,String channelNo) {
         try {
+            dto.setUrl(url);
+            dto.setVoiceFormat(voiceFormat);
+            dto.setChannelNo(channelNo);
             logger.debug("identity-->dto={}", dto);
             if (Setting.ServiceProvider.TX.name().equals(serviceProvider)) {
                 return this.identityTxHttp(dto);
@@ -138,7 +153,7 @@ public class IntelligentController {
      */
     private ApiRespResult identityTxHttp(IntelligentDto dto) {
         try {
-            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat())) {
+            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat()) || StringUtils.isEmpty(dto.getChannelNo())) {
                 return ApiRespResult.error(ApiResultCode.E1);
             }
             TreeMap<String, Object> params = new TreeMap<>();
@@ -168,7 +183,17 @@ public class IntelligentController {
                     responseMap = JSONObject.parseObject(String.valueOf(o), Map.class);
                     String identityTxResult = String.valueOf(responseMap.get("Result"));
                     if (null != identityTxResult) {
-                        return identityTxResult.equals(matchingWord) ? ApiRespResult.success() : ApiRespResult.error(ApiResultCode.FAIL, identityTxResult);
+                        CommonResqDto commonResqDto = new CommonResqDto();
+                        ApiRespResult apiRespResult = ApiRespResult.success();
+                        if(identityTxResult.equals(matchingWord)){
+                            commonResqDto.setFlag(1);
+                        }else{
+                            commonResqDto.setFlag(0);
+                        }
+                        commonResqDto.setResultDetails(identityTxResult);
+                        ValidateUtil.addResult(dto.getChannelNo(),asr, commonResqDto);
+                        apiRespResult.setData(commonResqDto);
+                        return apiRespResult;
                     }
                 }
             }
@@ -189,19 +214,26 @@ public class IntelligentController {
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/tts
      * @apiPermission admin
-     * @apiHeader {String} text 合成语音文字信息
+     * @apiParam {String} text 合成语音文字信息
+     * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
-     * @apiSuccess (成功响应) {Json} data   上传成功后返回参数
-     * @apiSuccess (成功响应) {String} data.accessUrl     上传成功后文件访问路径
-     * @apiSuccess (成功响应) {String} data.storageName   上传成功后服务器存储的文件名
-     * @apiSuccess (成功响应) {String} data.fileName      上传的文件原文件名
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 ，此接口暂时未用到此字段信息
+     * @apiSuccess (成功响应) {Json} data.resultDetails   语音地址信息
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
-     * "data": null
+     * "data": {
+     *      "V_asr": {
+     *             "flag": 0,
+     *             "otherData": null,
+     *             "resultDetails": "http://ip:port/xx/1.wav"
+     *         }
+     * }
+     * }
      * @apiErrorExample {Json} 失败响应示例:
      * {
      * "code": "-1",
@@ -211,8 +243,10 @@ public class IntelligentController {
      */
 
     @PostMapping("/tts")
-    public ApiRespResult textToVoice(@RequestBody IntelligentDto dto) {
+    public ApiRespResult textToVoice(IntelligentDto dto,String text,String channelNo) {
         try {
+            dto.setText(text);
+            dto.setChannelNo(channelNo);
             logger.debug("textToVoice-->dto={}", dto);
             if (Setting.ServiceProvider.TX.name().equals(serviceProvider)) {
                 return this.textToVoiceTxHttp(dto);
@@ -232,7 +266,7 @@ public class IntelligentController {
      */
     private ApiRespResult textToVoiceTxHttp(IntelligentDto dto) {
         try {
-            if (StringUtils.isEmpty(dto.getText())) {
+            if (StringUtils.isEmpty(dto.getText())|| StringUtils.isEmpty(dto.getChannelNo())) {
                 return ApiRespResult.error(ApiResultCode.E1);
             }
             TreeMap<String, Object> params = new TreeMap<>();
@@ -268,7 +302,10 @@ public class IntelligentController {
                         SignatureUtil.decoderBase64File(identityTxResult, fileStorePath + fileName);
                         logger.debug("textToVoiceTxHttp-->存储音频文件信息，耗时={}ms，end，{}", (System.nanoTime()-beginSaveTime)/1000000,fileStorePath + params.get("SessionId"));
                         ApiRespResult apiRespResult = ApiRespResult.success();
-                        apiRespResult.setData(fileAccessPath + fileName);
+                        CommonResqDto commonResqDto = new CommonResqDto();
+                        commonResqDto.setFlag(1);
+                        commonResqDto.setResultDetails(fileAccessPath + fileName);
+                        ValidateUtil.addResult(dto.getChannelNo(),tts, commonResqDto);
                         return apiRespResult;
                     }
                 }

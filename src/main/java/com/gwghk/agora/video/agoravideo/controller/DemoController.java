@@ -46,6 +46,37 @@ public class DemoController {
      * 
      * @param cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。
      */
+
+    /**
+     * @api {post} /ocr/idCard" 1、身份证ocr识别
+     * @apiDescription 身份证ocr识别
+     * @apiGroup group000_check
+     * @apiName ocr
+     * @apiVersion 1.0.0
+     * @apiSampleRequest /ocr/idCard
+     * @apiPermission admin
+     * @apiParam {String} channelNo 通道信息
+     * @apiParam {String} imgUrl 图片地址信息
+     * @apiParam {String} cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。
+     * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
+     * @apiSuccess (成功响应) {String} msg  请求返回信息
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccessExample {Json} 成功响应示例:
+     * <p>
+     * {
+     * "code": "0" ,
+     * "msg": "success",
+     * "data": {
+
+     * }
+     * }
+     * @apiErrorExample {Json} 失败响应示例:
+     * {
+     * "code": "-1",
+     * "msg": "exception",
+     * "data": ""
+     * }
+     */
     @RequestMapping(value = "/ocr/idCard", method = { RequestMethod.POST, RequestMethod.GET })
     public ApiRespResult<CommonResqDto> ocrIdCard(HttpServletRequest req, String channelNo,String imgUrl, Integer cardType) {
         try{
@@ -98,6 +129,7 @@ public class DemoController {
                         }
                     }
                     ValidateUtil.addResult(orcIdCord_no+cardType+"_"+channelNo, commonResqDto);
+                    ValidateUtil.addResult(channelNo,orcIdCord_no, commonResqDto);
                     result =  ApiRespResult.success(commonResqDto);
                 }
             }            
@@ -110,6 +142,38 @@ public class DemoController {
 
     /**
      * 功能：图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
+     */
+
+    /**
+     * @api {post} /check/identity 2、图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
+     * @apiDescription 图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
+     * @apiGroup group000_check
+     * @apiName check
+     * @apiVersion 1.0.0
+     * @apiSampleRequest /check/identity
+     * @apiPermission admin
+     * @apiParam {String} channelNo 通道信息
+     * @apiParam {String} idcardNumber 证件号
+     * @apiParam {String} idcardName 证件名称
+     * @apiParam {String} imgUrl 图片地址信息
+     * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
+     * @apiSuccess (成功响应) {String} msg  请求返回信息
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccessExample {Json} 成功响应示例:
+     * <p>
+     * {
+     * "code": "0" ,
+     * "msg": "success",
+     * "data": {
+
+     * }
+     * }
+     * @apiErrorExample {Json} 失败响应示例:
+     * {
+     * "code": "-1",
+     * "msg": "exception",
+     * "data": ""
+     * }
      */
     @RequestMapping(value = "/check/identity", method = { RequestMethod.POST, RequestMethod.GET })
     public ApiRespResult<CommonResqDto> checkIdentity(HttpServletRequest req,String channelNo, String idcardNumber, String idcardName, String imgUrl) {
@@ -156,6 +220,7 @@ public class DemoController {
                         }
                     }
                     ValidateUtil.addResult(identity_no+"_"+channelNo, commonResqDto);
+                    ValidateUtil.addResult(channelNo, identity_no,commonResqDto);
                 }
             }
             return result;
@@ -167,6 +232,38 @@ public class DemoController {
 
     /**
      * 功能：图像活体检测 (人脸静态活体检测) 0,1
+     */
+
+    /**
+     * @api {post} /check/alive 3、图像活体检测 (人脸静态活体检测) 0,1
+     * @apiDescription 图像活体检测
+     * @apiGroup group000_check
+     * @apiName check
+     * @apiVersion 1.0.0
+     * @apiSampleRequest /check/alive
+     * @apiPermission admin
+     * @apiParam {String} imgUrl 图片地址信息
+     * @apiParam {String} channelNo 通道信息
+     * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
+     * @apiSuccess (成功响应) {String} msg  请求返回信息
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 ，此接口暂时未用到此字段信息
+     * @apiSuccess (成功响应) {Json} data.resultDetails   语音地址信息
+     * @apiSuccessExample {Json} 成功响应示例:
+     * <p>
+     * {
+     * "code": "0" ,
+     * "msg": "success",
+     * "data": {
+
+     * }
+     * }
+     * @apiErrorExample {Json} 失败响应示例:
+     * {
+     * "code": "-1",
+     * "msg": "exception",
+     * "data": ""
+     * }
      */
     @RequestMapping(value = "/check/alive", method = { RequestMethod.POST, RequestMethod.GET })
     public ApiRespResult<CommonResqDto> checkAlive(HttpServletRequest req,String channelNo, String imgUrl) {
@@ -208,6 +305,7 @@ public class DemoController {
                         }
                     }
                     ValidateUtil.addResult(alive_no+"_"+channelNo, commonResqDto);
+                    ValidateUtil.addResult(channelNo,alive_no, commonResqDto);
                 }
             }          
             return result;

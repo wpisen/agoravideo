@@ -41,6 +41,7 @@ public class IntelligentDto implements Serializable {
     private String timestamp;
     // 文本信息
     private String text;
+    private String channelNo;//通道号
 
     @JSONField(name = "ProjectId")
     public String getProjectId() {
@@ -173,6 +174,14 @@ public class IntelligentDto implements Serializable {
         this.text = text;
     }
 
+    public String getChannelNo() {
+        return channelNo;
+    }
+
+    public void setChannelNo(String channelNo) {
+        this.channelNo = channelNo;
+    }
+
     public IntelligentDto() {
     }
 
@@ -195,6 +204,7 @@ public class IntelligentDto implements Serializable {
                 ", nonce='" + nonce + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", text='" + text + '\'' +
+                ", channelNo='" + channelNo + '\'' +
                 '}';
     }
 }
