@@ -19,7 +19,7 @@ public class ResultController {
     protected final static Logger logger = LoggerFactory.getLogger(ResultController.class);
 
     /**
-     * @api {post/get} /result/get 6、根据通道获取结果信息
+     * @api {post} /result/get 6、根据通道获取结果信息
      * @apiDescription 获取结果信息
      * @apiGroup group000_Intelligent voice
      * @apiName getResult

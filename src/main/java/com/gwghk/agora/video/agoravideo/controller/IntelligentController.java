@@ -89,7 +89,7 @@ public class IntelligentController {
     private final static String asr="V_ASR";
 
     /**
-     * @api {post/get} /voice/asr 4、语音识别接口
+     * @api {post} /voice/asr 4、语音识别接口
      * @apiDescription 语音识别接口
      * @apiGroup group000_Intelligent voice
      * @apiName identity
@@ -206,7 +206,7 @@ public class IntelligentController {
 
 
     /**
-     * @api {post/get} /voice/tts 5、语音合成接口
+     * @api {post} /voice/tts 5、语音合成接口
      * @apiDescription 语音合成接口
      * @apiGroup group000_Intelligent voice
      * @apiName textToVoice

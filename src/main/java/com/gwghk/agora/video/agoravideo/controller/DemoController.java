@@ -36,7 +36,7 @@ public class DemoController {
     private static String alive_no="C_ALIVE_";//图像活体检测 
     
     /**
-     * @api {post/get} /ocr/idCard 1、身份证ocr识别
+     * @api {post} /ocr/idCard 1、身份证ocr识别
      * @apiDescription 身份证ocr识别
      * @apiGroup group000_Intelligent voice
      * @apiName ocrIdCard
@@ -131,7 +131,7 @@ public class DemoController {
 
 
     /**
-     * @api {post/get} /check/identity 2、图像人身核实
+     * @api {post} /check/identity 2、图像人身核实
      * @apiDescription 图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
      * @apiGroup group000_Intelligent voice
      * @apiName checkIdentity
@@ -219,7 +219,7 @@ public class DemoController {
 
 
     /**
-     * @api {post/get} /check/alive 3、图像活体检测
+     * @api {post} /check/alive 3、图像活体检测
      * @apiDescription 图像活体检测 (人脸静态活体检测) 0,1
      * @apiGroup group000_Intelligent voice
      * @apiName checkAlive
