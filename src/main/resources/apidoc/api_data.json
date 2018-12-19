@@ -28,7 +28,7 @@
     "name": ""
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/check/alive",
     "title": "3、图像活体检测",
     "description": "<p>图像活体检测 (人脸静态活体检测) 0,1</p>",
@@ -139,7 +139,7 @@
     "groupTitle": "group000_Intelligent_voice"
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/check/identity",
     "title": "2、图像人身核实",
     "description": "<p>图像人身核实 (用户上传照片身份信息核验) 0,1及相似度</p>",
@@ -250,7 +250,7 @@
     "groupTitle": "group000_Intelligent_voice"
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/result/get",
     "title": "6、根据通道获取结果信息",
     "description": "<p>获取结果信息</p>",
@@ -340,7 +340,7 @@
     "groupTitle": "group000_Intelligent_voice"
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/voice/asr",
     "title": "4、语音识别接口",
     "description": "<p>语音识别接口</p>",
@@ -458,7 +458,7 @@
     "groupTitle": "group000_Intelligent_voice"
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/ocr/idCard",
     "title": "1、身份证ocr识别",
     "description": "<p>身份证ocr识别</p>",
@@ -562,7 +562,7 @@
     "groupTitle": "group000_Intelligent_voice"
   },
   {
-    "type": "post/get",
+    "type": "post",
     "url": "/voice/tts",
     "title": "5、语音合成接口",
     "description": "<p>语音合成接口</p>",
