@@ -48,6 +48,7 @@ public class ResultController {
      * }
      */
 
+
     @RequestMapping(value = "/get")
     public ApiRespResult getResult(IntelligentDto dto, String channelNo) {
         try {
