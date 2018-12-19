@@ -23,8 +23,8 @@
     "url": "",
     "version": "0.0.0",
     "filename": "src/main/resources/apidoc/main.js",
-    "group": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
-    "groupTitle": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
+    "group": "Y__company_git_agoravideo_back_src_main_resources_apidoc_main_js",
+    "groupTitle": "Y__company_git_agoravideo_back_src_main_resources_apidoc_main_js",
     "name": ""
   },
   {
@@ -113,15 +113,36 @@
             "group": "成功响应",
             "type": "Json",
             "optional": false,
+            "field": "data.otherData",
+            "description": "<p>其他信息</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
             "field": "data.resultDetails",
-            "description": "<p>语音地址信息</p>"
+            "description": "<p>活体打分信息key</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.five_point",
+            "description": "<p>打分信息</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.score",
+            "description": "<p>活体打分，取值范围 [0,100]，推荐相大于 87 时可判断为活体，可根据具体场景自行调整阈值</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n}\n}",
+          "content": "<p>\n    {\n        \"code\":\"0\",\n        \"msg\":\"success\",\n        \"data\":{\n        \"flag\":1,\n        \"otherData\":null,\n        \"resultDetails\":{\n        \"five_point\":[\n            182\n        ],\n        \"score\":0\n    }\n    },\n    \"ok\":true\n    }",
           "type": "Json"
         }
       ]
@@ -226,13 +247,41 @@
             "optional": false,
             "field": "data",
             "description": "<p>成功后返回参数</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.flag",
+            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.otherData",
+            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails",
+            "description": "<p>具体属性key</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.similarity",
+            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n}\n}",
+          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n        \"flag\": 0,\n        \"otherData\": 1.2,\n        \"resultDetails\":{\n            \"similarity\":1.2\n        }\n     }\n}",
           "type": "Json"
         }
       ]
@@ -537,14 +586,189 @@
             "type": "Json",
             "optional": false,
             "field": "data",
-            "description": "<p>成功后返回参数</p>"
+            "description": "<p>成功后返回参数key</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.flag",
+            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.otherData",
+            "description": "<p>此接口暂时未用此参数</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails",
+            "description": "<p>idCard识别返回详细参数</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.code",
+            "description": "<p>错误码，0 为成功</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.message",
+            "description": "<p>错误描述</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.url",
+            "description": "<p>当前图片的 url</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data",
+            "description": "<p>证件反面相关的属性key</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.authority",
+            "description": "<p>发证机关（反面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.valid_date",
+            "description": "<p>证件有效期（反面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.authority_confidence_all",
+            "description": "<p>发证机关置信度，取值范围[0,100]（反面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.valid_date_confidence_all",
+            "description": "<p>证件有效期置信度，取值范围[0,100]（反面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.name",
+            "description": "<p>姓名（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.sex",
+            "description": "<p>性别（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.nation",
+            "description": "<p>民族（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.birth",
+            "description": "<p>出生日期（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.address",
+            "description": "<p>地址（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.id",
+            "description": "<p>身份证号（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.name_confidence_all",
+            "description": "<p>证件姓名置信度，取值范围[0,100]（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.sex_confidence_all",
+            "description": "<p>性别置信度，取值范围[0,100]（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.nation_confidence_all",
+            "description": "<p>民族置信度，取值范围[0,100]（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.birth_confidence_all",
+            "description": "<p>出生日期置信度，取值范围[0,100]（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.address_confidence_all",
+            "description": "<p>地址置信度，取值范围[0,100]（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.card_type",
+            "description": "<p>待定（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.recognize_warn_code",
+            "description": "<p>待定（正面相关的属性）</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.resultDetails.data.recognize_warn_msg",
+            "description": "<p>待定（正面相关的属性）</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n}\n}",
+          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": {\n                \"code\":\"0\",\n                \"message\":\"OCR_IDCARD_ILLEGAL\",\n                \"url\":\"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg\",\n                \"data\": {\n                      \"authority\": \"\",\n                      \"valid_date\": \"\",\n                      \"authority_confidence_all\": \"\",\n                      \"valid_date_confidence_all\": \"\",\n                      \"name\": \"\",\n                      \"sex\": \"\",\n                      \"nation\": \"\",\n                      \"birth\": \"\",\n                      \"address\": \"\",\n                      \"id\": \"\",\n                      \"name_confidence_all\": [],\n                      \"sex_confidence_all\": [],\n                      \"nation_confidence_all\": [],\n                      \"birth_confidence_all\": [],\n                      \"address_confidence_all\": [],\n                      \"id_confidence_all\": [],\n                      \"card_type\": \"\",\n                      \"recognize_warn_code\": [],\n                      \"recognize_warn_msg\": [],\n              }\n            }\n}\n}",
           "type": "Json"
         }
       ]
@@ -655,7 +879,7 @@
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n     \"V_asr\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n        }\n}\n}",
+          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n     \"V_ASR\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n        }\n}\n}",
           "type": "Json"
         }
       ]
@@ -766,7 +990,7 @@
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0000\" ,\n\"msg\": \"请求成功\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",
+          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",
           "type": "Json"
         }
       ]
@@ -775,7 +999,7 @@
       "examples": [
         {
           "title": "失败响应示例:",
-          "content": "{\n\"code\": \"9999\",\n\"msg\": \"请求服务器异常\",\n\"data\": \"\"\n}",
+          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
           "type": "Json"
         }
       ]

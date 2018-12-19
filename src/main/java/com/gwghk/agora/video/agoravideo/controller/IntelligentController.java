@@ -127,11 +127,8 @@ public class IntelligentController {
      */
 
     @RequestMapping("/asr")
-    public ApiRespResult identity(IntelligentDto dto,String url,String voiceFormat,String channelNo) {
+    public ApiRespResult identity(IntelligentDto dto) {
         try {
-            dto.setUrl(url);
-            dto.setVoiceFormat(voiceFormat);
-            dto.setChannelNo(channelNo);
             logger.debug("identity-->dto={}", dto);
             if (Setting.ServiceProvider.TX.name().equals(serviceProvider)) {
                 return this.identityTxHttp(dto);
@@ -227,7 +224,7 @@ public class IntelligentController {
      * "code": "0" ,
      * "msg": "success",
      * "data": {
-     *      "V_asr": {
+     *      "V_ASR": {
      *             "flag": 0,
      *             "otherData": null,
      *             "resultDetails": "http://ip:port/xx/1.wav"
@@ -243,10 +240,8 @@ public class IntelligentController {
      */
 
     @RequestMapping("/tts")
-    public ApiRespResult textToVoice(IntelligentDto dto,String text,String channelNo) {
+    public ApiRespResult textToVoice(IntelligentDto dto) {
         try {
-            dto.setText(text);
-            dto.setChannelNo(channelNo);
             logger.debug("textToVoice-->dto={}", dto);
             if (Setting.ServiceProvider.TX.name().equals(serviceProvider)) {
                 return this.textToVoiceTxHttp(dto);
@@ -306,6 +301,7 @@ public class IntelligentController {
                         commonResqDto.setFlag(1);
                         commonResqDto.setResultDetails(fileAccessPath + fileName);
                         ValidateUtil.addResult(dto.getChannelNo(),tts, commonResqDto);
+                        apiRespResult.setData(commonResqDto);
                         return apiRespResult;
                     }
                 }

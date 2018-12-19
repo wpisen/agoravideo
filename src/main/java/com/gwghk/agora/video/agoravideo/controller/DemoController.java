@@ -49,14 +49,66 @@ public class DemoController {
      * @apiParam {String} cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
-     * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数key
+     * @apiSuccess (成功响应) {Json} data.flag   code返回0表示cardType要求验证的结果一致，标记为1
+     * @apiSuccess (成功响应) {Json} data.otherData   此接口暂时未用此参数
+     * @apiSuccess (成功响应) {Json} data.resultDetails   idCard识别返回详细参数
+     * @apiSuccess (成功响应) {Json} data.resultDetails.code   错误码，0 为成功
+     * @apiSuccess (成功响应) {Json} data.resultDetails.message   错误描述
+     * @apiSuccess (成功响应) {Json} data.resultDetails.url   当前图片的 url
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data   证件反面相关的属性key
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.authority   发证机关（反面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.valid_date   证件有效期（反面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.authority_confidence_all   发证机关置信度，取值范围[0,100]（反面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.valid_date_confidence_all   证件有效期置信度，取值范围[0,100]（反面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.name   姓名（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.sex   性别（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.nation   民族（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.birth   出生日期（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.address   地址（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.id   身份证号（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.name_confidence_all   证件姓名置信度，取值范围[0,100]（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.sex_confidence_all   性别置信度，取值范围[0,100]（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.nation_confidence_all   民族置信度，取值范围[0,100]（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.birth_confidence_all   出生日期置信度，取值范围[0,100]（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.address_confidence_all  地址置信度，取值范围[0,100]（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.card_type  待定（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.recognize_warn_code  待定（正面相关的属性）
+     * @apiSuccess (成功响应) {Json} data.resultDetails.data.recognize_warn_msg  待定（正面相关的属性）
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
      * "data": {
-
+     *             "flag": 0,
+     *             "otherData": null,
+     *             "resultDetails": {
+     *                 "code":"0",
+     *                 "message":"OCR_IDCARD_ILLEGAL",
+     *                 "url":"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg",
+     *                 "data": {
+     *                       "authority": "",
+     *                       "valid_date": "",
+     *                       "authority_confidence_all": "",
+     *                       "valid_date_confidence_all": "",
+     *                       "name": "",
+     *                       "sex": "",
+     *                       "nation": "",
+     *                       "birth": "",
+     *                       "address": "",
+     *                       "id": "",
+     *                       "name_confidence_all": [],
+     *                       "sex_confidence_all": [],
+     *                       "nation_confidence_all": [],
+     *                       "birth_confidence_all": [],
+     *                       "address_confidence_all": [],
+     *                       "id_confidence_all": [],
+     *                       "card_type": "",
+     *                       "recognize_warn_code": [],
+     *                       "recognize_warn_msg": [],
+     *               }
+     *             }
      * }
      * }
      * @apiErrorExample {Json} 失败响应示例:
@@ -146,14 +198,22 @@ public class DemoController {
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
      * @apiSuccess (成功响应) {Json} data   成功后返回参数
+     * @apiSuccess (成功响应) {Json} data.flag   code返回0表示cardType要求验证的结果一致，标记为1
+     * @apiSuccess (成功响应) {Json} data.otherData   用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值
+     * @apiSuccess (成功响应) {Json} data.resultDetails   具体属性key
+     * @apiSuccess (成功响应) {Json} data.resultDetails.similarity   用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
      * "data": {
-
-     * }
+     *         "flag": 0,
+     *         "otherData": 1.2,
+     *         "resultDetails":{
+     *             "similarity":1.2
+     *         }
+     *      }
      * }
      * @apiErrorExample {Json} 失败响应示例:
      * {
@@ -233,16 +293,27 @@ public class DemoController {
      * @apiSuccess (成功响应) {String} msg  请求返回信息
      * @apiSuccess (成功响应) {Json} data   成功后返回参数
      * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 ，此接口暂时未用到此字段信息
-     * @apiSuccess (成功响应) {Json} data.resultDetails   语音地址信息
+     * @apiSuccess (成功响应) {Json} data.otherData   其他信息
+     * @apiSuccess (成功响应) {Json} data.resultDetails   活体打分信息key
+     * @apiSuccess (成功响应) {Json} data.resultDetails.five_point   打分信息
+     * @apiSuccess (成功响应) {Json} data.resultDetails.score   活体打分，取值范围 [0,100]，推荐相大于 87 时可判断为活体，可根据具体场景自行调整阈值
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
-     * {
-     * "code": "0" ,
-     * "msg": "success",
-     * "data": {
-
-     * }
-     * }
+    {
+        "code":"0",
+        "msg":"success",
+        "data":{
+        "flag":1,
+        "otherData":null,
+        "resultDetails":{
+        "five_point":[
+            182
+        ],
+        "score":0
+    }
+    },
+    "ok":true
+    }
      * @apiErrorExample {Json} 失败响应示例:
      * {
      * "code": "-1",

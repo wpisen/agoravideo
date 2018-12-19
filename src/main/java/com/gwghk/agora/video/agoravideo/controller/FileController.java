@@ -37,7 +37,7 @@ public class FileController {
 
     private String[] IMG_FILE_TYPES = {".JPG", ".PNG", ".JPEG", ".WEBP"};
 
-    private long IMG_MAX_SIZE = 5 * 1024 * 1024;
+    private long IMG_MAX_SIZE = 100 * 1024 * 1024;
 
     /**
      * @api {post} /common/uploadImage 1、文件上传
@@ -58,8 +58,8 @@ public class FileController {
      * @apiSuccessExample {Json} 成功响应示例:
      * <p>
      * {
-     * "code": "0000" ,
-     * "msg": "请求成功",
+     * "code": "0" ,
+     * "msg": "success",
      * "data": {
      * "fileName": "selfedit_one.apk",
      * "accessUrl": "http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk",
@@ -68,13 +68,13 @@ public class FileController {
      * }
      * @apiErrorExample {Json} 失败响应示例:
      * {
-     * "code": "9999",
-     * "msg": "请求服务器异常",
+     * "code": "-1",
+     * "msg": "exception",
      * "data": ""
      * }
      */
 
-    @PostMapping("/uploadFile")
+    @PostMapping("/uploadImage")
     public ApiRespResult uploadFile(@RequestParam("file") MultipartFile file) {
         ApiRespResult apiRespResult = checkFile(file);
         if (!ApiResultCode.SUCCESS.getCode().equals(apiRespResult.getCode())) {
@@ -92,13 +92,9 @@ public class FileController {
             return ApiRespResult.error(ApiResultCode.E1);
         }
         String fileName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length()).toUpperCase();
-        if (Arrays.asList(IMG_FILE_TYPES).contains(fileName)) {
-            if (file.getSize() > IMG_MAX_SIZE) {
-                logger.info(ApiResultCode.E7.getCode());
-                return ApiRespResult.error(ApiResultCode.E7);
-            }
-        } else {
-            return ApiRespResult.error(ApiResultCode.E6);
+        if (file.getSize() > IMG_MAX_SIZE) {
+            logger.info(ApiResultCode.E7.getCode());
+            return ApiRespResult.error(ApiResultCode.E7);
         }
         return ApiRespResult.success();
     }
