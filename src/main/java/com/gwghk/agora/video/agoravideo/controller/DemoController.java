@@ -178,7 +178,7 @@ public class DemoController {
             params.put("idcard_name", idcardName);
             String jsonStr = JSON.toJSON(params).toString();
             String str = HttpClientUtil.doPostWithJson(url, jsonStr, headers);
-            str="{\"data\":{\"similarity\":100.0,\"session_id\":\"\",},\"code\":0,\"message\":\"OK\"}";
+            //str="{\"data\":{\"similarity\":100.0,\"session_id\":\"\",},\"code\":0,\"message\":\"OK\"}";
             if(StringUtils.isNotBlank(str)){
                 Map<String, Object> map = JsonUtil.json2Map(str);
                 Object obj = map.get("code");
