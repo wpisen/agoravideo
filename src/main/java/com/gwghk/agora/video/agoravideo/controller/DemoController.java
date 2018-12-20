@@ -32,9 +32,10 @@ public class DemoController {
     private static final Logger logger = LoggerFactory.getLogger(DemoController.class);
  
     private static String orcIdCord_no="C_ORCIDCORD_";//身份证ocr识别
-    private static String identity_no="C_Identity_";//图像人身核实
+    private static String identity_no="C_IDENTITY_";//图像人身核实
     private static String alive_no="C_ALIVE_";//图像活体检测 
-    
+    private static String image_url="C_IMAGE_URL_";//图片地址前缀信息
+
     /**
      * @api {post} /ocr/idCard 1、身份证ocr识别
      * @apiDescription 身份证ocr识别
@@ -168,7 +169,7 @@ public class DemoController {
                             commonResqDto.setResultDetails(idCardResqDto);
                         }
                     }
-                    ValidateUtil.addResult(orcIdCord_no+cardType+"_"+channelNo, commonResqDto);
+                    //ValidateUtil.addResult(orcIdCord_no+cardType+"_"+channelNo, commonResqDto);
                     ValidateUtil.addResult(channelNo,orcIdCord_no, commonResqDto);
                     result =  ApiRespResult.success(commonResqDto);
                 }
@@ -264,8 +265,9 @@ public class DemoController {
                             result.setMsg(message.toString());
                         }
                     }
-                    ValidateUtil.addResult(identity_no+"_"+channelNo, commonResqDto);
+                    //ValidateUtil.addResult(identity_no+"_"+channelNo, commonResqDto);
                     ValidateUtil.addResult(channelNo, identity_no,commonResqDto);
+                    ValidateUtil.addResult(channelNo, image_url,imgUrl);
                 }
             }
             return result;
@@ -357,8 +359,9 @@ public class DemoController {
                             result.setMsg(message.toString());
                         }
                     }
-                    ValidateUtil.addResult(alive_no+"_"+channelNo, commonResqDto);
+                    //ValidateUtil.addResult(alive_no+"_"+channelNo, commonResqDto);
                     ValidateUtil.addResult(channelNo,alive_no, commonResqDto);
+                    ValidateUtil.addResult(channelNo, image_url,imgUrl);
                 }
             }          
             return result;
