@@ -15,10 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-import java.util.Random;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 语音识别接口
@@ -100,24 +97,26 @@ public class IntelligentController {
      * @apiParam {String} url 音频地址信息
      * @apiParam {String} voiceFormat 音频格式信息
      * @apiParam {String} channelNo 通道信息
+     * @apiParam {String} step 用户操作步骤信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
      * @apiSuccess (成功响应) {Json} data   成功后返回参数
-     * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 -1:检测不到或各异常；0:与期望结果不一致，1:与期望结果一致
-     * @apiSuccess (成功响应) {Json} data.resultDetails   原始语音信息
+     * @apiSuccess (成功响应) {Json} data.flag    匹配结果信息 -1:检测不到或各异常；0:与期望结果不一致，1:与期望结果一致
+     * @apiSuccess (成功响应) {Json} data.resultDetails    原始语音信息
+     * @apiSuccess (成功响应) {Json} data.step    用户操作步骤信息
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
-     * {
-     * "code": "0" ,
-     * "msg": "success",
-     * "data": {
-     *      "V_ASR": {
-     *             "flag": 0,
-     *             "otherData": null,
-     *             "resultDetails": "请问你叫什么名字。"
-     *         }
-     * }
-     * }
+        {
+            "code": "0",
+            "msg": "success",
+            "data": [
+                {
+                "resultDetails": "请问你叫什么名字。",
+                "flag": 0,
+                "step": "1"
+                }
+            ],
+        "ok": true
+        }
      * @apiErrorExample {Json} 失败响应示例:
      * {
      * "code": "-1",
@@ -149,7 +148,7 @@ public class IntelligentController {
      */
     private ApiRespResult identityTxHttp(IntelligentDto dto) {
         try {
-            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat()) || StringUtils.isEmpty(dto.getChannelNo())) {
+            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat()) || StringUtils.isEmpty(dto.getChannelNo()) || StringUtils.isEmpty(dto.getStep())) {
                 return ApiRespResult.error(ApiResultCode.E1);
             }
             TreeMap<String, Object> params = new TreeMap<>();
@@ -179,16 +178,24 @@ public class IntelligentController {
                     responseMap = JSONObject.parseObject(String.valueOf(o), Map.class);
                     String identityTxResult = String.valueOf(responseMap.get("Result"));
                     if (null != identityTxResult) {
-                        CommonResqDto commonResqDto = new CommonResqDto();
-                        ApiRespResult apiRespResult = ApiRespResult.success();
-                        if(identityTxResult.equals(matchingWord)){
-                            commonResqDto.setFlag(1);
-                        }else{
-                            commonResqDto.setFlag(0);
+                        List<Object> resultList = new ArrayList<>();
+                        Map<String,Object> map = new HashMap<>();
+                        map.put("flag",identityTxResult.equals(matchingWord) ? 1 : 0);
+                        map.put("resultDetails",identityTxResult);
+                        map.put("step",dto.getStep());
+                        if(1 != dto.getStep()){
+                            Object tempObj = ValidateUtil.getResult(dto.getChannelNo());
+                            if(!StringUtils.isEmpty(tempObj) && tempObj instanceof Map){
+                                Object otherT = ((Map) tempObj).get(asr);
+                                if(!StringUtils.isEmpty(tempObj) && otherT instanceof List){
+                                    resultList = (List<Object>) otherT;
+                                }
+                            }
                         }
-                        commonResqDto.setResultDetails(identityTxResult);
-                        ValidateUtil.addResult(dto.getChannelNo(),asr, commonResqDto);
-                        apiRespResult.setData(commonResqDto);
+                        resultList.add(map);
+                        ValidateUtil.addResult(dto.getChannelNo(),asr, resultList);
+                        ApiRespResult apiRespResult = ApiRespResult.success();
+                        apiRespResult.setData(resultList);
                         return apiRespResult;
                     }
                 }
@@ -219,17 +226,14 @@ public class IntelligentController {
      * @apiSuccess (成功响应) {Json} data.flag   匹配结果信息 ，此接口暂时未用到此字段信息
      * @apiSuccess (成功响应) {Json} data.resultDetails   语音地址信息
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
-     * "data": {
-     *      "V_ASR": {
+     * "data":  {
      *             "flag": 0,
      *             "otherData": null,
      *             "resultDetails": "http://ip:port/xx/1.wav"
-     *         }
-     * }
+     *     }
      * }
      * @apiErrorExample {Json} 失败响应示例:
      * {

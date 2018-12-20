@@ -32,7 +32,6 @@ public class ResultController {
      * @apiSuccess (成功响应) {String} msg  请求返回信息
      * @apiSuccess (成功响应) {Json} data   成功后返回参数
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
      * {
      * "code": "0" ,
      * "msg": "success",

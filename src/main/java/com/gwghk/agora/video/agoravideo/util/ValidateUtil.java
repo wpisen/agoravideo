@@ -1,28 +1,20 @@
 package com.gwghk.agora.video.agoravideo.util;
 
 import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
 public class ValidateUtil {
-    @Value("${appId}")
     public static String   appId ;//= "1258281633";
 
-    @Value("${service.secretId}")
     public static String  secretId ;//= "AKIDnXJ0KDweFOwiV4On0Qty0E8BRhPECbxA";
 
-    @Value("${service.secretKey}")
     public static String  secretKey;// = "yap06HIP1lNySlziX8JNZhgbxDJGwcDh";
 
-    @Value("${bucket.name}")
     public static String bucketName;//="test-1";
 
-    @Value("${api.url}")
     public static String demoApiUrl;//="http://recognition.image.myqcloud.com";
 
     private static Map<String,CommonResqDto> resultMap = new HashMap<String,CommonResqDto>();
@@ -54,7 +46,7 @@ public class ValidateUtil {
      * @param type 类型
      * @param value value
      */
-    public static void addResult(String key,String type,CommonResqDto value){
+    public static void addResult(String key,String type,Object value){
         Map<String,Object> tMap = finishResultMap.containsKey(key) ? finishResultMap.get(key) : new HashMap();
         tMap.put(type,value);
         finishResultMap.put(key, tMap);

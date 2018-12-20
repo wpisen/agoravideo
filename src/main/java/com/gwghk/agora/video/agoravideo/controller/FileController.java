@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +36,7 @@ public class FileController {
 
     private String[] IMG_FILE_TYPES = {".JPG", ".PNG", ".JPEG", ".WEBP"};
 
-    private long IMG_MAX_SIZE = 100 * 1024 * 1024;
+    private long IMG_MAX_SIZE = 5 * 1024 * 1024;
 
     /**
      * @api {post} /common/uploadImage 1、文件上传
@@ -56,7 +55,6 @@ public class FileController {
      * @apiSuccess (成功响应) {String} data.storageName   上传成功后服务器存储的文件名
      * @apiSuccess (成功响应) {String} data.fileName      上传的文件原文件名
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
@@ -74,7 +72,7 @@ public class FileController {
      * }
      */
 
-    @PostMapping("/uploadImage")
+    @PostMapping("/uploadFile")
     public ApiRespResult uploadFile(@RequestParam("file") MultipartFile file) {
         ApiRespResult apiRespResult = checkFile(file);
         if (!ApiResultCode.SUCCESS.getCode().equals(apiRespResult.getCode())) {
@@ -91,7 +89,6 @@ public class FileController {
             logger.info(ApiResultCode.E1.getCode());
             return ApiRespResult.error(ApiResultCode.E1);
         }
-        String fileName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."), file.getOriginalFilename().length()).toUpperCase();
         if (file.getSize() > IMG_MAX_SIZE) {
             logger.info(ApiResultCode.E7.getCode());
             return ApiRespResult.error(ApiResultCode.E7);

@@ -23,8 +23,8 @@ define({ "api": [
     "url": "",
     "version": "0.0.0",
     "filename": "src/main/resources/apidoc/main.js",
-    "group": "Y__company_git_agoravideo_back_src_main_resources_apidoc_main_js",
-    "groupTitle": "Y__company_git_agoravideo_back_src_main_resources_apidoc_main_js",
+    "group": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
+    "groupTitle": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
     "name": ""
   },
   {
@@ -142,7 +142,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n    {\n        \"code\":\"0\",\n        \"msg\":\"success\",\n        \"data\":{\n        \"flag\":1,\n        \"otherData\":null,\n        \"resultDetails\":{\n        \"five_point\":[\n            182\n        ],\n        \"score\":0\n    }\n    },\n    \"ok\":true\n    }",
+          "content": "{\n    \"code\":\"0\",\n    \"msg\":\"success\",\n    \"data\":{\n    \"flag\":1,\n    \"otherData\":null,\n    \"resultDetails\":{\n    \"five_point\":[\n        182\n    ],\n    \"score\":0\n}\n},\n\"ok\":true\n}",
           "type": "Json"
         }
       ]
@@ -281,7 +281,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n        \"flag\": 0,\n        \"otherData\": 1.2,\n        \"resultDetails\":{\n            \"similarity\":1.2\n        }\n     }\n}",
+          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n        \"flag\": 0,\n        \"otherData\": 1.2,\n        \"resultDetails\":{\n            \"similarity\":1.2\n        }\n     }\n}",
           "type": "Json"
         }
       ]
@@ -371,7 +371,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\n }\n}",
+          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\n }\n}",
           "type": "Json"
         }
       ]
@@ -442,6 +442,13 @@ define({ "api": [
             "optional": false,
             "field": "channelNo",
             "description": "<p>通道信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "step",
+            "description": "<p>用户操作步骤信息</p>"
           }
         ]
       }
@@ -483,13 +490,20 @@ define({ "api": [
             "optional": false,
             "field": "data.resultDetails",
             "description": "<p>原始语音信息</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data.step",
+            "description": "<p>用户操作步骤信息</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n     \"V_ASR\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"请问你叫什么名字。\"\n        }\n}\n}",
+          "content": "{\n    \"code\": \"0\",\n    \"msg\": \"success\",\n    \"data\": [\n        {\n        \"resultDetails\": \"请问你叫什么名字。\",\n        \"flag\": 0,\n        \"step\": \"1\"\n        }\n    ],\n\"ok\": true\n}",
           "type": "Json"
         }
       ]
@@ -768,7 +782,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": {\n                \"code\":\"0\",\n                \"message\":\"OCR_IDCARD_ILLEGAL\",\n                \"url\":\"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg\",\n                \"data\": {\n                      \"authority\": \"\",\n                      \"valid_date\": \"\",\n                      \"authority_confidence_all\": \"\",\n                      \"valid_date_confidence_all\": \"\",\n                      \"name\": \"\",\n                      \"sex\": \"\",\n                      \"nation\": \"\",\n                      \"birth\": \"\",\n                      \"address\": \"\",\n                      \"id\": \"\",\n                      \"name_confidence_all\": [],\n                      \"sex_confidence_all\": [],\n                      \"nation_confidence_all\": [],\n                      \"birth_confidence_all\": [],\n                      \"address_confidence_all\": [],\n                      \"id_confidence_all\": [],\n                      \"card_type\": \"\",\n                      \"recognize_warn_code\": [],\n                      \"recognize_warn_msg\": [],\n              }\n            }\n}\n}",
+          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": {\n                \"code\":\"0\",\n                \"message\":\"OCR_IDCARD_ILLEGAL\",\n                \"url\":\"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg\",\n                \"data\": {\n                      \"authority\": \"\",\n                      \"valid_date\": \"\",\n                      \"authority_confidence_all\": \"\",\n                      \"valid_date_confidence_all\": \"\",\n                      \"name\": \"\",\n                      \"sex\": \"\",\n                      \"nation\": \"\",\n                      \"birth\": \"\",\n                      \"address\": \"\",\n                      \"id\": \"\",\n                      \"name_confidence_all\": [],\n                      \"sex_confidence_all\": [],\n                      \"nation_confidence_all\": [],\n                      \"birth_confidence_all\": [],\n                      \"address_confidence_all\": [],\n                      \"id_confidence_all\": [],\n                      \"card_type\": \"\",\n                      \"recognize_warn_code\": [],\n                      \"recognize_warn_msg\": [],\n              }\n            }\n}\n}",
           "type": "Json"
         }
       ]
@@ -879,7 +893,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n     \"V_ASR\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n        }\n}\n}",
+          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\":  {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n    }\n}",
           "type": "Json"
         }
       ]
@@ -990,7 +1004,7 @@ define({ "api": [
       "examples": [
         {
           "title": "成功响应示例:",
-          "content": "<p>\n{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",
+          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",
           "type": "Json"
         }
       ]

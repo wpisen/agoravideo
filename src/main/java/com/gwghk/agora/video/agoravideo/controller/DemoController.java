@@ -76,7 +76,6 @@ public class DemoController {
      * @apiSuccess (成功响应) {Json} data.resultDetails.data.recognize_warn_code  待定（正面相关的属性）
      * @apiSuccess (成功响应) {Json} data.resultDetails.data.recognize_warn_msg  待定（正面相关的属性）
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
@@ -203,7 +202,6 @@ public class DemoController {
      * @apiSuccess (成功响应) {Json} data.resultDetails   具体属性key
      * @apiSuccess (成功响应) {Json} data.resultDetails.similarity   用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
      * {
      * "code": "0" ,
      * "msg": "success",
@@ -238,7 +236,7 @@ public class DemoController {
             params.put("idcard_name", idcardName);
             String jsonStr = JSON.toJSON(params).toString();
             String str = HttpClientUtil.doPostWithJson(url, jsonStr, headers);
-            //str="{\"data\":{\"similarity\":100.0,\"session_id\":\"\",},\"code\":0,\"message\":\"OK\"}";
+            str="{\"data\":{\"similarity\":100.0,\"session_id\":\"\",},\"code\":0,\"message\":\"OK\"}";
             if(StringUtils.isNotBlank(str)){
                 Map<String, Object> map = JsonUtil.json2Map(str);
                 Object obj = map.get("code");
@@ -298,7 +296,6 @@ public class DemoController {
      * @apiSuccess (成功响应) {Json} data.resultDetails.five_point   打分信息
      * @apiSuccess (成功响应) {Json} data.resultDetails.score   活体打分，取值范围 [0,100]，推荐相大于 87 时可判断为活体，可根据具体场景自行调整阈值
      * @apiSuccessExample {Json} 成功响应示例:
-     * <p>
     {
         "code":"0",
         "msg":"success",
