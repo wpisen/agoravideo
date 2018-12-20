@@ -39,12 +39,12 @@ public class FileController {
     private long IMG_MAX_SIZE = 5 * 1024 * 1024;
 
     /**
-     * @api {post} /common/uploadImage 1、文件上传
+     * @api {post} /common/uploadFile 1、文件上传
      * @apiDescription 文件上传
      * @apiGroup group000_common
      * @apiName uploadFile
      * @apiVersion 1.0.0
-     * @apiSampleRequest /common/uploadImage
+     * @apiSampleRequest /common/uploadFile
      * @apiPermission admin
      * @apiHeader {String} Authorization 访问token
      * @apiParam {int} file 文件域参数名称

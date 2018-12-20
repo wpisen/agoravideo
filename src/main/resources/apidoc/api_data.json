@@ -912,7 +912,7 @@
   },
   {
     "type": "post",
-    "url": "/common/uploadImage",
+    "url": "/common/uploadFile",
     "title": "1、文件上传",
     "description": "<p>文件上传</p>",
     "group": "group000_common",
@@ -920,7 +920,7 @@
     "version": "1.0.0",
     "sampleRequest": [
       {
-        "url": "http://172.30.1.65:8088/agora/common/uploadImage"
+        "url": "http://172.30.1.65:8088/agora/common/uploadFile"
       }
     ],
     "permission": [
