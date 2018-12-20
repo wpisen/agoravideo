@@ -41,7 +41,9 @@ public class RecordController {
 		if(StringUtils.isEmpty(channel)) {
 			return ApiRespResult.error("channel 不能为空");
 		}
-	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channel,"--appliteDir","/data/agora/files","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
+
+		System.out.println("startRecord :" + System.currentTimeMillis() + "; channel :" + channel);
+	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channel,"--appliteDir","/usr/local/agora/","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
 	    fixedThreadPool.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -63,6 +65,8 @@ public class RecordController {
 		if(StringUtils.isEmpty(channel)) {
 			return ApiRespResult.error("channel 不能为空");
 		}
+
+		System.out.println("stopRecord :" + System.currentTimeMillis() + "; channel :" + channel);
 		if(redordingMap.get(channel) != null) {
 			RecordingSample ars = redordingMap.get(channel);
 			ars.leaveChannel();

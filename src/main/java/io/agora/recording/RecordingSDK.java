@@ -19,7 +19,7 @@ public class RecordingSDK {
 
     static {
         //System.loadLibrary("recording");
-		System.load("/usr/local/java/jdk/jni/librecording.so");
+		System.load("/usr/local/agora/librecording.so");
 		//LibLoader.loadLib("librecording.so");
     }
 
