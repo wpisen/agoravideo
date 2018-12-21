@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import ws.schild.jave.*;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -111,6 +113,9 @@ public class FileController {
             Path path = Paths.get(storePath + newFileName);
             Files.createDirectories(path.getParent());
             Files.write(path, bytes);
+            if(fileSubfix.equals(".aac") || fileSubfix.equals(".wav")){
+                newFileName = doConvert(newFileName);
+            }
             String accessUrl = accessPath + newFileName;
             Map<String, Object> respMap = new HashMap<>(3);
             respMap.put("accessUrl", accessUrl);
@@ -125,4 +130,40 @@ public class FileController {
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
     }
+
+    /**
+     * 语音文件转换
+     * @param newFileName
+     * @return
+     */
+    private String doConvert(String newFileName){
+
+        File source = new File(storePath+newFileName);
+        MultimediaObject msource = new MultimediaObject(source);
+
+        String nnFileName = newFileName.replace(".wav",".mp3")
+                .replace(".aac",".mp3");
+        File target = new File(storePath+nnFileName);
+
+        AudioAttributes audio = new AudioAttributes();
+        audio.setCodec("libmp3lame");
+        audio.setBitRate(new Integer(16000));
+        audio.setChannels(new Integer(1));
+        audio.setSamplingRate(new Integer(16000));
+
+        EncodingAttributes attrs = new EncodingAttributes();
+        attrs.setFormat("mp3");
+        attrs.setAudioAttributes(audio);
+
+        Encoder encoder = new Encoder();
+        try {
+            encoder.encode(msource, target, attrs);
+            return nnFileName;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

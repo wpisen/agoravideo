@@ -183,6 +183,7 @@ public class IntelligentController {
                         map.put("flag",identityTxResult.equals(matchingWord) ? 1 : 0);
                         map.put("resultDetails",identityTxResult);
                         map.put("step",dto.getStep());
+
                         if(1 != dto.getStep()){
                             Object tempObj = ValidateUtil.getResult(dto.getChannelNo());
                             if(!StringUtils.isEmpty(tempObj) && tempObj instanceof Map){
@@ -193,9 +194,10 @@ public class IntelligentController {
                             }
                         }
                         resultList.add(map);
+
                         ValidateUtil.addResult(dto.getChannelNo(),asr, resultList);
                         ApiRespResult apiRespResult = ApiRespResult.success();
-                        apiRespResult.setData(resultList);
+                        apiRespResult.setData(map);
                         return apiRespResult;
                     }
                 }
