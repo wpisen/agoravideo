@@ -43,7 +43,7 @@ public class FileController {
     /**
      * @api {post} /common/uploadFile 1、文件上传
      * @apiDescription 文件上传
-     * @apiGroup group000_common
+     * @apiGroup 0、Common
      * @apiName uploadFile
      * @apiVersion 1.0.0
      * @apiSampleRequest /common/uploadFile

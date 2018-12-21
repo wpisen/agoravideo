@@ -52,7 +52,7 @@ public class CheckController {
     /**
      * @api {post} /check/identity 2、图像人身核实
      * @apiDescription 图像人身核实 (用户上传照片身份信息核验) 0,1及相似度
-     * @apiGroup group000_Intelligent voice
+     * @apiGroup 2、Check
      * @apiName checkIdentity
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/identity
@@ -151,7 +151,7 @@ public class CheckController {
     /**
      * @api {post} /check/alive 3、图像活体检测
      * @apiDescription 图像活体检测 (人脸静态活体检测) 0,1
-     * @apiGroup group000_Intelligent voice
+     * @apiGroup 2、Check
      * @apiName checkAlive
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/alive
