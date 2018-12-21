@@ -58,19 +58,19 @@ public class RecordController {
 	 * }
 	 */
 	@RequestMapping(value = "/service/startRecord", method = { RequestMethod.POST, RequestMethod.GET })
-	public ApiRespResult<Void> startRecord(HttpServletRequest req,@RequestParam String channel) {
-		if(StringUtils.isEmpty(channel)) {
+	public ApiRespResult<Void> startRecord(HttpServletRequest req,@RequestParam String channelNo) {
+		if(StringUtils.isEmpty(channelNo)) {
 			return ApiRespResult.error("channel 不能为空");
 		}
 
-		System.out.println("startRecord :" + System.currentTimeMillis() + "; channel :" + channel);
-	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channel,"--appliteDir","/usr/local/agora/","-recordFileRootDir","/data/webroot/files/","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
+		System.out.println("startRecord :" + System.currentTimeMillis() + "; channel :" + channelNo);
+	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channelNo,"--appliteDir","/usr/local/agora/","-recordFileRootDir","/data/webroot/files/","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
 	    fixedThreadPool.execute(new Runnable() {
 			@Override
 			public void run() {
 				RecordingSDK RecordingSdk = new RecordingSDK();
 				RecordingSample ars = new RecordingSample(RecordingSdk);
-				redordingMap.put(channel, ars);
+				redordingMap.put(channelNo, ars);
 			    ars.createChannel(args);
 			    ars.unRegister();
 			}
@@ -104,14 +104,14 @@ public class RecordController {
 	 * }
 	 */
 	@RequestMapping(value = "/service/stopRecord", method = { RequestMethod.POST, RequestMethod.GET })
-	public ApiRespResult<Void> stopRecord(HttpServletRequest req,@RequestParam String channel,@RequestParam String type) {
-		if(StringUtils.isEmpty(channel)) {
+	public ApiRespResult<Void> stopRecord(HttpServletRequest req,@RequestParam String channelNo,@RequestParam String type) {
+		if(StringUtils.isEmpty(channelNo)) {
 			return ApiRespResult.error("channel 不能为空");
 		}
 
-		System.out.println("stopRecord :" + System.currentTimeMillis() + "; channel :" + channel);
-		if(redordingMap.get(channel) != null) {
-			RecordingSample ars = redordingMap.get(channel);
+		System.out.println("stopRecord :" + System.currentTimeMillis() + "; channelNo :" + channelNo);
+		if(redordingMap.get(channelNo) != null) {
+			RecordingSample ars = redordingMap.get(channelNo);
 			ars.leaveChannel();
 		}
 		return new ApiRespResult<>(ApiResultCode.SUCCESS);
