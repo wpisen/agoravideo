@@ -1,1024 +1,1 @@
-define({ "api": [
-  {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "src/main/resources/apidoc/main.js",
-    "group": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
-    "groupTitle": "D__workspace_agoravideo_back_src_main_resources_apidoc_main_js",
-    "name": ""
-  },
-  {
-    "type": "post",
-    "url": "/check/alive",
-    "title": "3、图像活体检测",
-    "description": "<p>图像活体检测 (人脸静态活体检测) 0,1</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "checkAlive",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/check/alive"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "imgUrl",
-            "description": "<p>图片地址信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.flag",
-            "description": "<p>匹配结果信息 ，此接口暂时未用到此字段信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.otherData",
-            "description": "<p>其他信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails",
-            "description": "<p>活体打分信息key</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.five_point",
-            "description": "<p>打分信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.score",
-            "description": "<p>活体打分，取值范围 [0,100]，推荐相大于 87 时可判断为活体，可根据具体场景自行调整阈值</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n    \"code\":\"0\",\n    \"msg\":\"success\",\n    \"data\":{\n    \"flag\":1,\n    \"otherData\":null,\n    \"resultDetails\":{\n    \"five_point\":[\n        182\n    ],\n    \"score\":0\n}\n},\n\"ok\":true\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/DemoController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/check/identity",
-    "title": "2、图像人身核实",
-    "description": "<p>图像人身核实 (用户上传照片身份信息核验) 0,1及相似度</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "checkIdentity",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/check/identity"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "idcardNumber",
-            "description": "<p>证件号</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "idcardName",
-            "description": "<p>证件名称</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "imgUrl",
-            "description": "<p>图片地址信息</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.flag",
-            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.otherData",
-            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails",
-            "description": "<p>具体属性key</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.similarity",
-            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n        \"flag\": 0,\n        \"otherData\": 1.2,\n        \"resultDetails\":{\n            \"similarity\":1.2\n        }\n     }\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/DemoController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/result/get",
-    "title": "6、根据通道获取结果信息",
-    "description": "<p>获取结果信息</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "getResult",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/result/get"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\n }\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ResultController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/voice/asr",
-    "title": "4、语音识别接口",
-    "description": "<p>语音识别接口</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "identity",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/voice/asr"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "url",
-            "description": "<p>音频地址信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "voiceFormat",
-            "description": "<p>音频格式信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "step",
-            "description": "<p>用户操作步骤信息</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.flag",
-            "description": "<p>匹配结果信息 -1:检测不到或各异常；0:与期望结果不一致，1:与期望结果一致</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails",
-            "description": "<p>原始语音信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.step",
-            "description": "<p>用户操作步骤信息</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n    \"code\": \"0\",\n    \"msg\": \"success\",\n    \"data\": [\n        {\n        \"resultDetails\": \"请问你叫什么名字。\",\n        \"flag\": 0,\n        \"step\": \"1\"\n        }\n    ],\n\"ok\": true\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/IntelligentController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/ocr/idCard",
-    "title": "1、身份证ocr识别",
-    "description": "<p>身份证ocr识别</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "ocrIdCard",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/ocr/idCard"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "imgUrl",
-            "description": "<p>图片地址信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "cardType",
-            "description": "<p>0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数key</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.flag",
-            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.otherData",
-            "description": "<p>此接口暂时未用此参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails",
-            "description": "<p>idCard识别返回详细参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.code",
-            "description": "<p>错误码，0 为成功</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.message",
-            "description": "<p>错误描述</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.url",
-            "description": "<p>当前图片的 url</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data",
-            "description": "<p>证件反面相关的属性key</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.authority",
-            "description": "<p>发证机关（反面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.valid_date",
-            "description": "<p>证件有效期（反面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.authority_confidence_all",
-            "description": "<p>发证机关置信度，取值范围[0,100]（反面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.valid_date_confidence_all",
-            "description": "<p>证件有效期置信度，取值范围[0,100]（反面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.name",
-            "description": "<p>姓名（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.sex",
-            "description": "<p>性别（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.nation",
-            "description": "<p>民族（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.birth",
-            "description": "<p>出生日期（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.address",
-            "description": "<p>地址（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.id",
-            "description": "<p>身份证号（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.name_confidence_all",
-            "description": "<p>证件姓名置信度，取值范围[0,100]（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.sex_confidence_all",
-            "description": "<p>性别置信度，取值范围[0,100]（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.nation_confidence_all",
-            "description": "<p>民族置信度，取值范围[0,100]（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.birth_confidence_all",
-            "description": "<p>出生日期置信度，取值范围[0,100]（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.address_confidence_all",
-            "description": "<p>地址置信度，取值范围[0,100]（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.card_type",
-            "description": "<p>待定（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.recognize_warn_code",
-            "description": "<p>待定（正面相关的属性）</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails.data.recognize_warn_msg",
-            "description": "<p>待定（正面相关的属性）</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": {\n                \"code\":\"0\",\n                \"message\":\"OCR_IDCARD_ILLEGAL\",\n                \"url\":\"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg\",\n                \"data\": {\n                      \"authority\": \"\",\n                      \"valid_date\": \"\",\n                      \"authority_confidence_all\": \"\",\n                      \"valid_date_confidence_all\": \"\",\n                      \"name\": \"\",\n                      \"sex\": \"\",\n                      \"nation\": \"\",\n                      \"birth\": \"\",\n                      \"address\": \"\",\n                      \"id\": \"\",\n                      \"name_confidence_all\": [],\n                      \"sex_confidence_all\": [],\n                      \"nation_confidence_all\": [],\n                      \"birth_confidence_all\": [],\n                      \"address_confidence_all\": [],\n                      \"id_confidence_all\": [],\n                      \"card_type\": \"\",\n                      \"recognize_warn_code\": [],\n                      \"recognize_warn_msg\": [],\n              }\n            }\n}\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/DemoController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/voice/tts",
-    "title": "5、语音合成接口",
-    "description": "<p>语音合成接口</p>",
-    "group": "group000_Intelligent_voice",
-    "name": "textToVoice",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/voice/tts"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "text",
-            "description": "<p>合成语音文字信息</p>"
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "channelNo",
-            "description": "<p>通道信息</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>成功后返回参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.flag",
-            "description": "<p>匹配结果信息 ，此接口暂时未用到此字段信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data.resultDetails",
-            "description": "<p>语音地址信息</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\":  {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n    }\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/IntelligentController.java",
-    "groupTitle": "group000_Intelligent_voice"
-  },
-  {
-    "type": "post",
-    "url": "/common/uploadFile",
-    "title": "1、文件上传",
-    "description": "<p>文件上传</p>",
-    "group": "group000_common",
-    "name": "uploadFile",
-    "version": "1.0.0",
-    "sampleRequest": [
-      {
-        "url": "http://172.30.1.65:8088/agora/common/uploadFile"
-      }
-    ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "int",
-            "optional": false,
-            "field": "file",
-            "description": "<p>文件域参数名称</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "fields": {
-        "成功响应": [
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "code",
-            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "msg",
-            "description": "<p>请求返回信息</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "Json",
-            "optional": false,
-            "field": "data",
-            "description": "<p>上传成功后返回参数</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "data.accessUrl",
-            "description": "<p>上传成功后文件访问路径</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "data.storageName",
-            "description": "<p>上传成功后服务器存储的文件名</p>"
-          },
-          {
-            "group": "成功响应",
-            "type": "String",
-            "optional": false,
-            "field": "data.fileName",
-            "description": "<p>上传的文件原文件名</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "成功响应示例:",
-          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "失败响应示例:",
-          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
-          "type": "Json"
-        }
-      ]
-    },
-    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/FileController.java",
-    "groupTitle": "group000_common"
-  }
-] });
+define({ "api": [  {    "type": "post",    "url": "/common/uploadFile",    "title": "1、文件上传",    "description": "<p>文件上传</p>",    "group": "0_Common",    "name": "uploadFile",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/common/uploadFile"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "int",            "optional": false,            "field": "file",            "description": "<p>文件域参数名称</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>上传成功后返回参数</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "data.accessUrl",            "description": "<p>上传成功后文件访问路径</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "data.storageName",            "description": "<p>上传成功后服务器存储的文件名</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "data.fileName",            "description": "<p>上传的文件原文件名</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\"fileName\": \"selfedit_one.apk\",\n\"accessUrl\": \"http://172.27.1.104:82/ea208b14-3487-4937-81ba-e8c1ff313220.apk\",\n\"storageName\": \"ea208b14-3487-4937-81ba-e8c1ff313220.apk\"\n}\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/FileController.java",    "groupTitle": "0_Common"  },  {    "type": "post",    "url": "/ocr/idCard",    "title": "1、身份证ocr识别",    "description": "<p>身份证ocr识别</p>",    "group": "1_OCR",    "name": "ocrIdCard",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/ocr/idCard"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "imgUrl",            "description": "<p>图片地址信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "cardType",            "description": "<p>0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数key</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.flag",            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.otherData",            "description": "<p>此接口暂时未用此参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails",            "description": "<p>idCard识别返回详细参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.code",            "description": "<p>错误码，0 为成功</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.message",            "description": "<p>错误描述</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.url",            "description": "<p>当前图片的 url</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data",            "description": "<p>证件反面相关的属性key</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.authority",            "description": "<p>发证机关（反面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.valid_date",            "description": "<p>证件有效期（反面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.authority_confidence_all",            "description": "<p>发证机关置信度，取值范围[0,100]（反面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.valid_date_confidence_all",            "description": "<p>证件有效期置信度，取值范围[0,100]（反面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.name",            "description": "<p>姓名（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.sex",            "description": "<p>性别（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.nation",            "description": "<p>民族（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.birth",            "description": "<p>出生日期（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.address",            "description": "<p>地址（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.id",            "description": "<p>身份证号（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.name_confidence_all",            "description": "<p>证件姓名置信度，取值范围[0,100]（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.sex_confidence_all",            "description": "<p>性别置信度，取值范围[0,100]（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.nation_confidence_all",            "description": "<p>民族置信度，取值范围[0,100]（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.birth_confidence_all",            "description": "<p>出生日期置信度，取值范围[0,100]（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.address_confidence_all",            "description": "<p>地址置信度，取值范围[0,100]（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.card_type",            "description": "<p>待定（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.recognize_warn_code",            "description": "<p>待定（正面相关的属性）</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.data.recognize_warn_msg",            "description": "<p>待定（正面相关的属性）</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": {\n                \"code\":\"0\",\n                \"message\":\"OCR_IDCARD_ILLEGAL\",\n                \"url\":\"http://test-1-1258281633.picgz.myqcloud.com/face_34.jpg\",\n                \"data\": {\n                      \"authority\": \"\",\n                      \"valid_date\": \"\",\n                      \"authority_confidence_all\": \"\",\n                      \"valid_date_confidence_all\": \"\",\n                      \"name\": \"\",\n                      \"sex\": \"\",\n                      \"nation\": \"\",\n                      \"birth\": \"\",\n                      \"address\": \"\",\n                      \"id\": \"\",\n                      \"name_confidence_all\": [],\n                      \"sex_confidence_all\": [],\n                      \"nation_confidence_all\": [],\n                      \"birth_confidence_all\": [],\n                      \"address_confidence_all\": [],\n                      \"id_confidence_all\": [],\n                      \"card_type\": \"\",\n                      \"recognize_warn_code\": [],\n                      \"recognize_warn_msg\": [],\n              }\n            }\n}\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/OcrController.java",    "groupTitle": "1_OCR"  },  {    "type": "post",    "url": "/check/alive",    "title": "2、图像活体检测",    "description": "<p>图像活体检测 (人脸静态活体检测) 0,1</p>",    "group": "2_Check",    "name": "checkAlive",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/check/alive"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "imgUrl",            "description": "<p>图片地址信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.flag",            "description": "<p>匹配结果信息 ，此接口暂时未用到此字段信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.otherData",            "description": "<p>其他信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails",            "description": "<p>活体打分信息key</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.five_point",            "description": "<p>打分信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.score",            "description": "<p>活体打分，取值范围 [0,100]，推荐相大于 87 时可判断为活体，可根据具体场景自行调整阈值</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n    \"code\":\"0\",\n    \"msg\":\"success\",\n    \"data\":{\n    \"flag\":1,\n    \"otherData\":null,\n    \"resultDetails\":{\n    \"five_point\":[\n        182\n    ],\n    \"score\":0\n}\n},\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/CheckController.java",    "groupTitle": "2_Check"  },  {    "type": "post",    "url": "/check/identity",    "title": "1、图像人身核实",    "description": "<p>图像人身核实 (用户上传照片身份信息核验) 0,1及相似度</p>",    "group": "2_Check",    "name": "checkIdentity",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/check/identity"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "idcardNumber",            "description": "<p>证件号</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "idcardName",            "description": "<p>证件名称</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "imgUrl",            "description": "<p>图片地址信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.flag",            "description": "<p>code返回0表示cardType要求验证的结果一致，标记为1</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.otherData",            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails",            "description": "<p>具体属性key</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails.similarity",            "description": "<p>用户上传的图像与身份证登记照的人脸相似度，取值范围[0,100]，推荐相似度大于 75 时可判断为同一人，可根据具体场景自行调整阈值</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n        \"flag\": 0,\n        \"otherData\": 1.2,\n        \"resultDetails\":{\n            \"similarity\":1.2\n        }\n     }\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/CheckController.java",    "groupTitle": "2_Check"  },  {    "type": "post",    "url": "/voice/asr",    "title": "1、语音识别接口",    "description": "<p>语音识别接口</p>",    "group": "3_Voice",    "name": "identity",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/voice/asr"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "url",            "description": "<p>音频地址信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "voiceFormat",            "description": "<p>音频格式信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "step",            "description": "<p>用户操作步骤信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.flag",            "description": "<p>匹配结果信息 -1:检测不到或各异常；0:与期望结果不一致，1:与期望结果一致</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails",            "description": "<p>原始语音信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.step",            "description": "<p>用户操作步骤信息</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n    \"code\": \"0\",\n    \"msg\": \"success\",\n    \"data\": [\n        {\n        \"resultDetails\": \"请问你叫什么名字。\",\n        \"flag\": 0,\n        \"step\": \"1\"\n        }\n    ],\n\"ok\": true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/IntelligentController.java",    "groupTitle": "3_Voice"  },  {    "type": "post",    "url": "/voice/tts",    "title": "2、语音合成接口",    "description": "<p>语音合成接口</p>",    "group": "3_Voice",    "name": "textToVoice",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/voice/tts"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "text",            "description": "<p>合成语音文字信息</p>"          },          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.flag",            "description": "<p>匹配结果信息 ，此接口暂时未用到此字段信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data.resultDetails",            "description": "<p>语音地址信息</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\":  {\n            \"flag\": 0,\n            \"otherData\": null,\n            \"resultDetails\": \"http://ip:port/xx/1.wav\"\n    }\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/IntelligentController.java",    "groupTitle": "3_Voice"  },  {    "type": "post",    "url": "/channel/clent/check",    "title": "1、获取通道开始双录",    "description": "<p>获取通道开始双录 true 表示没有占用通道可以进入双录  false 表示当前已经占用需要等待</p>",    "group": "4_Channel",    "name": "clentCheck",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/channel/clent/check"      }    ],    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数 true false</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":true,\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ChannelController.java",    "groupTitle": "4_Channel"  },  {    "type": "post",    "url": "/channel/customer/check",    "title": "2、调度端获取通道状态",    "description": "<p>调度端获取通道状态 true 表示需要进入并进行双录工作  false 表示当前没有用户等待双录</p>",    "group": "4_Channel",    "name": "customerCheck",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/channel/customer/check"      }    ],    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数 true false</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":true,\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ChannelController.java",    "groupTitle": "4_Channel"  },  {    "type": "post",    "url": "/channel/customer/close",    "title": "3、调度端结束并关闭录",    "description": "<p>调度端结束并关闭录 true 表示关闭成功</p>",    "group": "4_Channel",    "name": "customerClose",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/channel/customer/close"      }    ],    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数 true false</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":true,\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ChannelController.java",    "groupTitle": "4_Channel"  },  {    "type": "post",    "url": "/service/startRecord",    "title": "1、开启录制服务",    "description": "<p>开启录制服务</p>",    "group": "5_Service",    "name": "startRecord",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/service/startRecord"      }    ],    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":{},\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/RecordController.java",    "groupTitle": "5_Service"  },  {    "type": "post",    "url": "/service/stopRecord",    "title": "2、关闭录制服务",    "description": "<p>开启录制服务</p>",    "group": "5_Service",    "name": "stopRecord",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/service/stopRecord"      }    ],    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":{},\n\"ok\":true\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/RecordController.java",    "groupTitle": "5_Service"  },  {    "type": "post",    "url": "/result/get",    "title": "1、根据通道获取结果信息",    "description": "<p>获取结果信息</p>",    "group": "6_Result",    "name": "getResult",    "version": "1.0.0",    "sampleRequest": [      {        "url": "http://172.30.1.65:8088/agora/result/get"      }    ],    "permission": [      {        "name": "admin"      }    ],    "header": {      "fields": {        "Header": [          {            "group": "Header",            "type": "String",            "optional": false,            "field": "Authorization",            "description": "<p>访问token</p>"          }        ]      }    },    "parameter": {      "fields": {        "Parameter": [          {            "group": "Parameter",            "type": "String",            "optional": false,            "field": "channelNo",            "description": "<p>通道信息</p>"          }        ]      }    },    "success": {      "fields": {        "成功响应": [          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "code",            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"          },          {            "group": "成功响应",            "type": "String",            "optional": false,            "field": "msg",            "description": "<p>请求返回信息</p>"          },          {            "group": "成功响应",            "type": "Json",            "optional": false,            "field": "data",            "description": "<p>成功后返回参数</p>"          }        ]      },      "examples": [        {          "title": "成功响应示例:",          "content": "{\n\"code\": \"0\" ,\n\"msg\": \"success\",\n\"data\": {\n\n }\n}",          "type": "Json"        }      ]    },    "error": {      "examples": [        {          "title": "失败响应示例:",          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",          "type": "Json"        }      ]    },    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ResultController.java",    "groupTitle": "6_Result"  },  {    "success": {      "fields": {        "Success 200": [          {            "group": "Success 200",            "optional": false,            "field": "varname1",            "description": "<p>No type.</p>"          },          {            "group": "Success 200",            "type": "String",            "optional": false,            "field": "varname2",            "description": "<p>With type.</p>"          }        ]      }    },    "type": "",    "url": "",    "version": "0.0.0",    "filename": "src/main/resources/apidoc/main.js",    "group": "_Users_guoxuhui_gateway_agoravideo_src_main_resources_apidoc_main_js",    "groupTitle": "_Users_guoxuhui_gateway_agoravideo_src_main_resources_apidoc_main_js",    "name": ""  }] });

@@ -98,9 +98,9 @@ public class IntelligentController {
     private AipSpeech aipSpeech;
 
     /**
-     * @api {post} /voice/asr 4、语音识别接口
+     * @api {post} /voice/asr 1、语音识别接口
      * @apiDescription 语音识别接口
-     * @apiGroup group000_Intelligent voice
+     * @apiGroup 3、Voice
      * @apiName identity
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/asr
@@ -261,9 +261,9 @@ public class IntelligentController {
 
 
     /**
-     * @api {post} /voice/tts 5、语音合成接口
+     * @api {post} /voice/tts 2、语音合成接口
      * @apiDescription 语音合成接口
-     * @apiGroup group000_Intelligent voice
+     * @apiGroup 3、Voice
      * @apiName textToVoice
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/tts

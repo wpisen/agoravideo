@@ -51,7 +51,7 @@ public class OcrController {
     /**
      * @api {post} /ocr/idCard 1、身份证ocr识别
      * @apiDescription 身份证ocr识别
-     * @apiGroup group000_Intelligent voice
+     * @apiGroup 1、OCR
      * @apiName ocrIdCard
      * @apiVersion 1.0.0
      * @apiSampleRequest /ocr/idCard
