@@ -1,6 +1,7 @@
 package com.gwghk.agora.video.agoravideo.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baidu.aip.speech.AipSpeech;
 import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
 import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
@@ -8,8 +9,10 @@ import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
 import com.gwghk.agora.video.agoravideo.util.Setting;
 import com.gwghk.agora.video.agoravideo.util.SignatureUtil;
 import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +34,16 @@ public class IntelligentController {
     @Value("${service.region}")
     private String region;
     /**
-     * 服务提供商
+     * 语音合成服务提供商
      */
     @Value("${service.provider}")
     private String serviceProvider;
+
+    /**
+     * 语音识别服务提供商
+     */
+    @Value("${service.intelligent.provider}")
+    private String serviceIntelligentProvider;
 
     /**
      * secretId,在控制台申请
@@ -85,6 +94,9 @@ public class IntelligentController {
 
     private final static String asr="V_ASR";
 
+    @Autowired
+    private AipSpeech aipSpeech;
+
     /**
      * @api {post} /voice/asr 4、语音识别接口
      * @apiDescription 语音识别接口
@@ -129,9 +141,15 @@ public class IntelligentController {
     public ApiRespResult identity(IntelligentDto dto) {
         try {
             logger.debug("identity-->dto={}", dto);
-            if (Setting.ServiceProvider.TX.name().equals(serviceProvider)) {
+            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat()) || StringUtils.isEmpty(dto.getChannelNo()) || StringUtils.isEmpty(dto.getStep())) {
+                return ApiRespResult.error(ApiResultCode.E1);
+            }
+
+            if (Setting.ServiceProvider.TX.name().equals(serviceIntelligentProvider)) {
                 return this.identityTxHttp(dto);
-            } else {
+            } else if (Setting.ServiceProvider.BD.name().equals(serviceIntelligentProvider)) {
+                return this.identityBDHttp(dto);
+            }else {
                 return ApiRespResult.error(ApiResultCode.E1);
             }
         } catch (Exception e) {
@@ -141,16 +159,67 @@ public class IntelligentController {
 
 
     /**
-     * 语音识别接口(http)
+     * 语音识别接口(百度)
+     * @param dto 请求参数信息
+     * @return 返回语音识别结果信息
+     */
+    private ApiRespResult identityBDHttp(IntelligentDto dto) {
+        try {
+            long beginTime = System.nanoTime();
+            org.json.JSONObject response = aipSpeech.asr(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()), dto.getVoiceFormat(), 16000, null);
+            logger.debug("identityBDHttp-->耗时={}ms，resp={}",(System.nanoTime()-beginTime)/1000000, response);
+            if(!StringUtils.isEmpty(response) && response.has("err_no") && 0 == response.getInt("err_no")){
+                Object result = response.get("result");
+                if(!StringUtils.isEmpty(result)){
+                    if(result instanceof JSONArray){
+                        result =((JSONArray) result).get(0);
+                    }
+                    return this.operateResult(dto,result);
+                }
+            }
+            return ApiRespResult.error(ApiResultCode.FAIL);
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.debug("identityBDHttp-->invoke异常信息={}", e);
+            return ApiRespResult.error(ApiResultCode.EXCEPTION);
+        }
+    }
+
+    /**
+     * 设置返回信息
+     * @param dto 请求参数信息
+     * @param identityTxResult 语音识别信息
+     * @return 返回前端信息
+     */
+    private ApiRespResult operateResult(IntelligentDto dto, Object identityTxResult) {
+        List<Object> resultList = new ArrayList<>();
+        Map<String,Object> map = new HashMap<>();
+        map.put("flag",matchingWord.equals(identityTxResult) ? 1 : 0);
+        map.put("resultDetails",identityTxResult);
+        map.put("step",dto.getStep());
+        if(1 != dto.getStep()){
+            Object tempObj = ValidateUtil.getResult(dto.getChannelNo());
+            if(!StringUtils.isEmpty(tempObj) && tempObj instanceof Map){
+                Object otherT = ((Map) tempObj).get(asr);
+                if(!StringUtils.isEmpty(tempObj) && otherT instanceof List){
+                    resultList = (List<Object>) otherT;
+                }
+            }
+        }
+        resultList.add(map);
+        ValidateUtil.addResult(dto.getChannelNo(),asr, resultList);
+        return  ApiRespResult.success(map);
+    }
+
+
+    /**
+     * 语音识别接口(http，腾讯)
      *
      * @param dto 请求参数信息
      * @return 返回语音识别结果信息
      */
     private ApiRespResult identityTxHttp(IntelligentDto dto) {
         try {
-            if (StringUtils.isEmpty(dto.getUrl()) || StringUtils.isEmpty(dto.getVoiceFormat()) || StringUtils.isEmpty(dto.getChannelNo()) || StringUtils.isEmpty(dto.getStep())) {
-                return ApiRespResult.error(ApiResultCode.E1);
-            }
             TreeMap<String, Object> params = new TreeMap<>();
             params.put("Nonce", new Random().nextInt(Integer.MAX_VALUE));
             params.put("Timestamp", System.currentTimeMillis() / 1000);
@@ -178,27 +247,7 @@ public class IntelligentController {
                     responseMap = JSONObject.parseObject(String.valueOf(o), Map.class);
                     String identityTxResult = String.valueOf(responseMap.get("Result"));
                     if (null != identityTxResult) {
-                        List<Object> resultList = new ArrayList<>();
-                        Map<String,Object> map = new HashMap<>();
-                        map.put("flag",identityTxResult.equals(matchingWord) ? 1 : 0);
-                        map.put("resultDetails",identityTxResult);
-                        map.put("step",dto.getStep());
-
-                        if(1 != dto.getStep()){
-                            Object tempObj = ValidateUtil.getResult(dto.getChannelNo());
-                            if(!StringUtils.isEmpty(tempObj) && tempObj instanceof Map){
-                                Object otherT = ((Map) tempObj).get(asr);
-                                if(!StringUtils.isEmpty(tempObj) && otherT instanceof List){
-                                    resultList = (List<Object>) otherT;
-                                }
-                            }
-                        }
-                        resultList.add(map);
-
-                        ValidateUtil.addResult(dto.getChannelNo(),asr, resultList);
-                        ApiRespResult apiRespResult = ApiRespResult.success();
-                        apiRespResult.setData(map);
-                        return apiRespResult;
+                        return this.operateResult(dto,identityTxResult);
                     }
                 }
             }
