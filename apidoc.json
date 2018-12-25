@@ -1,8 +1,8 @@
 {
   "name": "智能语音服务后台API",
   "version": "1.0.0",
-  "description": "测试场：http://172.30.1.65:8088/agora\r\n真实场：待定\r\n",
+  "description": "测试场：http://129.204.139.158:8088/agora\r\n真实场：待定\r\n",
   "title": "智能语音服务后台API",
-  "url" : "http://172.30.1.65:8088/agora",
-  "sampleUrl" : "http://172.30.1.65:8088/agora"
+  "url" : "http://129.204.139.158:8088/agora",
+  "sampleUrl" : "http://129.204.139.158:8088/agora"
 }
