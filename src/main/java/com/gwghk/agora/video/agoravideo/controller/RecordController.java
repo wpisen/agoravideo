@@ -64,7 +64,7 @@ public class RecordController {
 		}
 
 		System.out.println("startRecord :" + System.currentTimeMillis() + "; channel :" + channelNo);
-	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channelNo,"--appliteDir","/usr/local/agora/","-recordFileRootDir","/data/webroot/files/","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
+	    String[] args = {"--appId","eab1f86c1f8f46f584c3bb70daee1241","--uid","0","--channel",channelNo,"--appliteDir","/usr/local/agora/","--recordFileRootDir","/data/webroot/files/","--channelProfile","0","--isMixingEnabled","1","--mixedVideoAudio","1"};
 	    fixedThreadPool.execute(new Runnable() {
 			@Override
 			public void run() {
