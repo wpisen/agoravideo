@@ -77,7 +77,7 @@ public class ChannelController {
                 return ApiRespResult.success(false);
             }else{
                 flatMap.put(channelNo,true);
-                return ApiRespResult.success(flat);
+                return ApiRespResult.success(true);
             }
         } catch (Exception e) {
             logger.error("clentCheck is fail...",e);
@@ -118,7 +118,7 @@ public class ChannelController {
             }
             Boolean flat = flatMap.get(channelNo);
             if(flat != null && flat.equals(true)){
-                return ApiRespResult.success(flat);
+                return ApiRespResult.success(true);
             }else{
                 return ApiRespResult.success(false);
             }
@@ -129,7 +129,7 @@ public class ChannelController {
     }
 
     /**
-     * @api {post} /channel/customer/close 3、调度端结束并关闭录
+     * @api {post} /channel/customer/close 3、调度端关闭（结束占用）
      * @apiDescription 调度端结束并关闭录 true 表示关闭成功
      * @apiGroup 4、Channel
      * @apiName customerClose
@@ -163,6 +163,45 @@ public class ChannelController {
             return ApiRespResult.success(true);
         } catch (Exception e) {
             logger.error("customerClose is fail...",e);
+            return ApiRespResult.error(ApiResultCode.EXCEPTION);
+        }
+    }
+
+    /**
+     * @api {post} /channel/customer/open 4、调度端开启 （开启占用）
+     * @apiDescription 调度端结束并关闭录 true 表示关闭成功
+     * @apiGroup 4、Channel
+     * @apiName customerOpen
+     * @apiVersion 1.0.0
+     * @apiSampleRequest /channel/customer/open
+     * @apiParam {String} channelNo 通道信息
+     * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
+     * @apiSuccess (成功响应) {String} msg  请求返回信息
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数 true false
+     * @apiSuccessExample {Json} 成功响应示例:
+    {
+    "code":"0",
+    "msg":"success",
+    "data":true,
+    "ok":true
+    }
+     * @apiErrorExample {Json} 失败响应示例:
+     * {
+     * "code": "-1",
+     * "msg": "exception",
+     * "data": ""
+     * }
+     */
+    @RequestMapping(value = "/channel/customer/open", method = { RequestMethod.POST, RequestMethod.GET })
+    public ApiRespResult<Boolean> customerOpen(HttpServletRequest req, String channelNo) {
+        try{
+            if(channelNo == null){
+                return ApiRespResult.error("channelNo 不能为空");
+            }
+            flatMap.put(channelNo,true);
+            return ApiRespResult.success(true);
+        } catch (Exception e) {
+            logger.error("customeroOpen is fail...",e);
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
     }
