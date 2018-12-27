@@ -1050,7 +1050,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/channel/customer/close",
-    "title": "3、调度端结束并关闭录",
+    "title": "3、调度端关闭（结束占用）",
     "description": "<p>调度端结束并关闭录 true 表示关闭成功</p>",
     "group": "4_Channel",
     "name": "customerClose",
@@ -1058,6 +1058,78 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "http://129.204.139.158:8088/agora/channel/customer/close"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channelNo",
+            "description": "<p>通道信息</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "成功响应": [
+          {
+            "group": "成功响应",
+            "type": "String",
+            "optional": false,
+            "field": "code",
+            "description": "<p>请求返回码 0:成功,其它请参见文档定义</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "String",
+            "optional": false,
+            "field": "msg",
+            "description": "<p>请求返回信息</p>"
+          },
+          {
+            "group": "成功响应",
+            "type": "Json",
+            "optional": false,
+            "field": "data",
+            "description": "<p>成功后返回参数 true false</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "成功响应示例:",
+          "content": "{\n\"code\":\"0\",\n\"msg\":\"success\",\n\"data\":true,\n\"ok\":true\n}",
+          "type": "Json"
+        }
+      ]
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "失败响应示例:",
+          "content": "{\n\"code\": \"-1\",\n\"msg\": \"exception\",\n\"data\": \"\"\n}",
+          "type": "Json"
+        }
+      ]
+    },
+    "filename": "src/main/java/com/gwghk/agora/video/agoravideo/controller/ChannelController.java",
+    "groupTitle": "4_Channel"
+  },
+  {
+    "type": "post",
+    "url": "/channel/customer/open",
+    "title": "4、调度端开启 （开启占用）",
+    "description": "<p>调度端结束并关闭录 true 表示关闭成功</p>",
+    "group": "4_Channel",
+    "name": "customerOpen",
+    "version": "1.0.0",
+    "sampleRequest": [
+      {
+        "url": "http://129.204.139.158:8088/agora/channel/customer/open"
       }
     ],
     "parameter": {
@@ -1377,8 +1449,8 @@ define({ "api": [
     "url": "",
     "version": "0.0.0",
     "filename": "src/main/resources/apidoc/main.js",
-    "group": "Y__company_git_agoravideo_src_main_resources_apidoc_main_js",
-    "groupTitle": "Y__company_git_agoravideo_src_main_resources_apidoc_main_js",
+    "group": "D__workspace_agoravideo_src_main_resources_apidoc_main_js",
+    "groupTitle": "D__workspace_agoravideo_src_main_resources_apidoc_main_js",
     "name": ""
   }
 ] });
