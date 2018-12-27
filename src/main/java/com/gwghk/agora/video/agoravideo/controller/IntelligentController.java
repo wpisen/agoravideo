@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -188,7 +189,7 @@ public class IntelligentController {
                 map.put("sid", sid);
                 map.put("audio", 1 == dto.getStep() ? dto.getStep() : 2);
                 map.put("wav_len", file.length());
-                map.put("wav_data", Base64.getEncoder().encodeToString(this.getBytes(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()))));
+                map.put("wav_data", URLEncoder.encode(Base64.getEncoder().encodeToString(this.getBytes(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()))),"GBK"));
                 long beginTime = System.nanoTime();
                 String result = HttpClientUtil.doPostWithMap(dpServiceAddress + DP_TTS_URL, map, null);
                 logger.debug("identityDPHttp-->耗时={}ms，resp={}", (System.nanoTime() - beginTime) / 1000000, result);
@@ -233,10 +234,7 @@ public class IntelligentController {
     private JSONObject getResult(String startResult) {
         Map<String,Object> startMap = JSONObject.parseObject(startResult);
         if (0 == Integer.valueOf(startMap.getOrDefault("code", -1) + "")) {
-            Object responseRes =  getResult(startResult);
-            if(!StringUtils.isEmpty(responseRes)){
-                return JSONObject.parseObject(responseRes + "");
-            }
+              return JSONObject.parseObject(startMap.get("result") + "");
         }
         return null;
     }
