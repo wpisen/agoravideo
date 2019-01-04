@@ -103,6 +103,9 @@ public class IntelligentController {
     //语音上传识别接口，实时识别需要持续调用此接口
     private final static  String DP_TTS_URL="audio";
 
+    //结束本轮会话接口
+    private final static  String DP_TTS_URL_END="end";
+
 
     private final static String tts="V_TTS";
 
@@ -185,10 +188,10 @@ public class IntelligentController {
             if (!StringUtils.isEmpty(sid)) {
                 File file = new File(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()));
                 Map map = new HashMap();
-                map.put("stype", "dsr");
+                map.put("stype", "dsr");//引擎类型，参数可为isr，dsr
                 map.put("sid", sid);
-                map.put("audio", 1 == dto.getStep() ? dto.getStep() : 2);
-                map.put("wav_len", file.length());
+                map.put("audio_status", String.valueOf(1 == dto.getStep() ? dto.getStep() : (-1 == dto.getStep() ? 4 : 2)));
+                map.put("wav_len", String.valueOf(file.length()));
                 map.put("wav_data", URLEncoder.encode(Base64.getEncoder().encodeToString(this.getBytes(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()))),"GBK"));
                 long beginTime = System.nanoTime();
                 String result = HttpClientUtil.doPostWithMap(dpServiceAddress + DP_TTS_URL, map, null);
@@ -196,12 +199,15 @@ public class IntelligentController {
                 if (!StringUtils.isEmpty(result)) {
                     JSONObject responseRes = getResult(result);
                     if (!StringUtils.isEmpty(responseRes)) {
+                        new Thread(() -> SignatureUtil.sendGet(dpServiceAddress + DP_TTS_URL_END, "stype=dsr&sid=" + sid)).start();
+                        dto.setSid(String.valueOf(sid));
                         return this.operateResult(dto, responseRes.containsKey("kw") ? responseRes.get("kw") : null);
                     }
                 }
             }
             return ApiRespResult.error(ApiResultCode.FAIL);
         } catch (Exception e) {
+            logger.debug("identityDPHttp-->invoke异常信息={}", e);
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
     }
