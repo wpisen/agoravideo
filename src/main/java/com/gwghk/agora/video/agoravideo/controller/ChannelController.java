@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -79,6 +76,27 @@ public class ChannelController {
                 flatMap.put(channelNo,true);
                 return ApiRespResult.success(true);
             }
+        } catch (Exception e) {
+            logger.error("clentCheck is fail...",e);
+            return ApiRespResult.error(ApiResultCode.EXCEPTION);
+        }
+    }
+
+    @RequestMapping(value = "/channel/check", method = { RequestMethod.POST, RequestMethod.GET })
+    public ApiRespResult<String> check(HttpServletRequest req) {
+        try{
+            String curChannelNo = null;
+            synchronized (flatMap) {
+                Set<String> keys = flatMap.keySet();
+                for (String channelNo : keys) {
+                    Boolean flat = flatMap.get(channelNo);
+                    if (flat == null || flat.equals(false)) {
+                        flatMap.put(channelNo, true);
+                        curChannelNo = channelNo;
+                    }
+                }
+            }
+            return ApiRespResult.success(curChannelNo);
         } catch (Exception e) {
             logger.error("clentCheck is fail...",e);
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
