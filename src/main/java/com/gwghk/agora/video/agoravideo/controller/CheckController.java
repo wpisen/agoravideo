@@ -3,7 +3,9 @@ package com.gwghk.agora.video.agoravideo.controller;
 import com.alibaba.fastjson.JSON;
 import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
-import com.gwghk.agora.video.agoravideo.model.*;
+import com.gwghk.agora.video.agoravideo.model.AliveResqDto;
+import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
+import com.gwghk.agora.video.agoravideo.model.IdentityResqDto;
 import com.gwghk.agora.video.agoravideo.util.HttpClientUtil;
 import com.gwghk.agora.video.agoravideo.util.JsonUtil;
 import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
@@ -15,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,8 +56,6 @@ public class CheckController {
      * @apiName checkIdentity
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/identity
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} channelNo 通道信息
      * @apiParam {String} idcardNumber 证件号
      * @apiParam {String} idcardName 证件名称
@@ -155,8 +153,6 @@ public class CheckController {
      * @apiName checkAlive
      * @apiVersion 1.0.0
      * @apiSampleRequest /check/alive
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} imgUrl 图片地址信息
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义

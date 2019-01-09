@@ -55,8 +55,6 @@ public class OcrController {
      * @apiName ocrIdCard
      * @apiVersion 1.0.0
      * @apiSampleRequest /ocr/idCard
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} channelNo 通道信息
      * @apiParam {String} imgUrl 图片地址信息
      * @apiParam {String} cardType 0 为识别身份证有照片的一面，1 为识别身份证有国徽的一面；如果未指定，默认为0。

@@ -47,8 +47,6 @@ public class FileController {
      * @apiName uploadFile
      * @apiVersion 1.0.0
      * @apiSampleRequest /common/uploadFile
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {int} file 文件域参数名称
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息

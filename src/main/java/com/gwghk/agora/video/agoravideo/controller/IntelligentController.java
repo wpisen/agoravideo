@@ -121,8 +121,6 @@ public class IntelligentController {
      * @apiName identity
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/asr
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} url 音频地址信息
      * @apiParam {String} voiceFormat 音频格式信息
      * @apiParam {String} channelNo 通道信息
@@ -356,8 +354,6 @@ public class IntelligentController {
      * @apiName textToVoice
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/tts
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} text 合成语音文字信息
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
