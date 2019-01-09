@@ -12,24 +12,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/common/uploadFile"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -123,24 +105,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/ocr/idCard"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -402,24 +366,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/check/alive"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -534,24 +480,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/check/identity"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -673,24 +601,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/voice/asr"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -805,24 +715,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/voice/tts"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1348,24 +1240,6 @@ define({ "api": [
         "url": "http://129.204.139.158:8088/agora/result/get"
       }
     ],
-    "permission": [
-      {
-        "name": "admin"
-      }
-    ],
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>访问token</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1449,8 +1323,8 @@ define({ "api": [
     "url": "",
     "version": "0.0.0",
     "filename": "src/main/resources/apidoc/main.js",
-    "group": "D__workspace_agoravideo_src_main_resources_apidoc_main_js",
-    "groupTitle": "D__workspace_agoravideo_src_main_resources_apidoc_main_js",
+    "group": "Y__company_git_agoravideo_src_main_resources_apidoc_main_js",
+    "groupTitle": "Y__company_git_agoravideo_src_main_resources_apidoc_main_js",
     "name": ""
   }
 ] });

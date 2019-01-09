@@ -6,6 +6,7 @@ import com.gwghk.agora.video.agoravideo.base.ApiRespResult;
 import com.gwghk.agora.video.agoravideo.base.ApiResultCode;
 import com.gwghk.agora.video.agoravideo.dto.IntelligentDto;
 import com.gwghk.agora.video.agoravideo.model.CommonResqDto;
+import com.gwghk.agora.video.agoravideo.util.HttpClientUtil;
 import com.gwghk.agora.video.agoravideo.util.Setting;
 import com.gwghk.agora.video.agoravideo.util.SignatureUtil;
 import com.gwghk.agora.video.agoravideo.util.ValidateUtil;
@@ -18,6 +19,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -89,6 +92,20 @@ public class IntelligentController {
     @Value("${matching.word}")
     private String matchingWord;
 
+    /**
+     * 帝派语音识别请求地址
+     */
+    @Value("${dp.service.address}")
+    private String dpServiceAddress;
+    //获取本轮识别会话ID
+    private final static  String DP_TTS_URL_START="start";
+
+    //语音上传识别接口，实时识别需要持续调用此接口
+    private final static  String DP_TTS_URL="audio";
+
+    //结束本轮会话接口
+    private final static  String DP_TTS_URL_END="end";
+
 
     private final static String tts="V_TTS";
 
@@ -104,8 +121,6 @@ public class IntelligentController {
      * @apiName identity
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/asr
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} url 音频地址信息
      * @apiParam {String} voiceFormat 音频格式信息
      * @apiParam {String} channelNo 通道信息
@@ -149,12 +164,83 @@ public class IntelligentController {
                 return this.identityTxHttp(dto);
             } else if (Setting.ServiceProvider.BD.name().equals(serviceIntelligentProvider)) {
                 return this.identityBDHttp(dto);
+            } else if (Setting.ServiceProvider.DP.name().equals(serviceIntelligentProvider)) {
+                return this.identityDPHttp(dto);
             }else {
                 return ApiRespResult.error(ApiResultCode.E1);
             }
         } catch (Exception e) {
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
+    }
+
+    /**
+     * 语音识别接口(帝派)
+     * @param dto 请求参数信息
+     * @return 返回语音识别结果信息
+     */
+    private ApiRespResult identityDPHttp(IntelligentDto dto) {
+        try {
+            //首先获取回话id
+            Object sid = StringUtils.isEmpty(dto.getSid()) ? querySid() : dto.getSid();
+            if (!StringUtils.isEmpty(sid)) {
+                File file = new File(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()));
+                Map map = new HashMap();
+                map.put("stype", "dsr");//引擎类型，参数可为isr，dsr
+                map.put("sid", sid);
+                map.put("audio_status", String.valueOf(1 == dto.getStep() ? dto.getStep() : (-1 == dto.getStep() ? 4 : 2)));
+                map.put("wav_len", String.valueOf(file.length()));
+                map.put("wav_data", URLEncoder.encode(Base64.getEncoder().encodeToString(this.getBytes(fileStorePath + dto.getUrl().substring(dto.getUrl().lastIndexOf("/") + 1, dto.getUrl().length()))),"GBK"));
+                long beginTime = System.nanoTime();
+                String result = HttpClientUtil.doPostWithMap(dpServiceAddress + DP_TTS_URL, map, null);
+                logger.debug("identityDPHttp-->耗时={}ms，resp={}", (System.nanoTime() - beginTime) / 1000000, result);
+                if (!StringUtils.isEmpty(result)) {
+                    JSONObject responseRes = getResult(result);
+                    if (!StringUtils.isEmpty(responseRes)) {
+                        new Thread(() -> SignatureUtil.sendGet(dpServiceAddress + DP_TTS_URL_END, "stype=dsr&sid=" + sid)).start();
+                        dto.setSid(String.valueOf(sid));
+                        return this.operateResult(dto, responseRes.containsKey("kw") ? responseRes.get("kw") : null);
+                    }
+                }
+            }
+            return ApiRespResult.error(ApiResultCode.FAIL);
+        } catch (Exception e) {
+            logger.debug("identityDPHttp-->invoke异常信息={}", e);
+            return ApiRespResult.error(ApiResultCode.EXCEPTION);
+        }
+    }
+
+
+
+    /**
+     * 获取回话id信息
+     * @return 返回回话id
+     */
+    private Object querySid() {
+        Object sid = null;
+        long beginTime = System.nanoTime();
+        String startResult = SignatureUtil.sendGet(dpServiceAddress + DP_TTS_URL_START, "stype=dsr");
+        logger.debug("querySid-->耗时={}ms，resp={}",(System.nanoTime()-beginTime)/1000000, startResult);
+        if (!StringUtils.isEmpty(startResult)) {
+            JSONObject startJR =  getResult(startResult);
+            if(!StringUtils.isEmpty(startJR)){
+                sid = startJR.containsKey("sid")?startJR.get("sid"):null;
+            }
+        }
+        return sid;
+    }
+
+    /**
+     * 获取有效结果信息
+     * @param startResult 返回结果信息
+     * @return 返回有效结果信息
+     */
+    private JSONObject getResult(String startResult) {
+        Map<String,Object> startMap = JSONObject.parseObject(startResult);
+        if (0 == Integer.valueOf(startMap.getOrDefault("code", -1) + "")) {
+              return JSONObject.parseObject(startMap.get("result") + "");
+        }
+        return null;
     }
 
 
@@ -197,6 +283,7 @@ public class IntelligentController {
         map.put("flag",matchingWord.equals(identityTxResult) ? 1 : 0);
         map.put("resultDetails",identityTxResult);
         map.put("step",dto.getStep());
+        map.put("sid",dto.getSid());
         if(1 != dto.getStep()){
             Object tempObj = ValidateUtil.getResult(dto.getChannelNo());
             if(!StringUtils.isEmpty(tempObj) && tempObj instanceof Map){
@@ -267,8 +354,6 @@ public class IntelligentController {
      * @apiName textToVoice
      * @apiVersion 1.0.0
      * @apiSampleRequest /voice/tts
-     * @apiPermission admin
-     * @apiHeader {String} Authorization 访问token
      * @apiParam {String} text 合成语音文字信息
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
@@ -367,5 +452,33 @@ public class IntelligentController {
             logger.debug("textToVoiceTxHttp-->invoke异常信息={}", e);
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
+    }
+
+    /**
+     * 获取文件二进制流
+     *
+     * @param filePath 文件路径
+     * @return 返回文件二进制流
+     */
+    private byte[] getBytes(String filePath) {
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(1000);
+            byte[] b = new byte[1000];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
     }
 }

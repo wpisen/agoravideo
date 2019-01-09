@@ -44,6 +44,8 @@ public class IntelligentDto implements Serializable {
     private String channelNo;//通道号
     private int step;//语音识别步骤
 
+    private String sid;//帝派sid
+
     @JSONField(name = "ProjectId")
     public String getProjectId() {
         return projectId;
@@ -191,6 +193,14 @@ public class IntelligentDto implements Serializable {
         this.step = step;
     }
 
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+
     public IntelligentDto() {
     }
 
@@ -214,7 +224,8 @@ public class IntelligentDto implements Serializable {
                 ", timestamp='" + timestamp + '\'' +
                 ", text='" + text + '\'' +
                 ", channelNo='" + channelNo + '\'' +
-                ", step='" + step + '\'' +
+                ", step=" + step +
+                ", sid='" + sid + '\'' +
                 '}';
     }
 }
