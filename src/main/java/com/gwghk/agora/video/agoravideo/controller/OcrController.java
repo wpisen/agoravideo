@@ -183,7 +183,9 @@ public class OcrController {
                         }
                     }
                     //ValidateUtil.addResult(idCard+cardType+"_"+channelNo, commonResqDto);
-                    ValidateUtil.addResult(channelNo, idCard, commonResqDto);
+                    if(StringUtils.isNotEmpty(channelNo)) {
+                        ValidateUtil.addResult(channelNo, idCard, commonResqDto);
+                    }
                     result =  ApiRespResult.success(commonResqDto);
                 }
             }
