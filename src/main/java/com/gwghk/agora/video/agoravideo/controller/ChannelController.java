@@ -39,8 +39,8 @@ public class ChannelController {
 
 
     /**
-     * @api {post} /channel/clent/check 1、获取通道开始双录
-     * @apiDescription 获取通道开始双录 true 表示没有占用通道可以进入双录  false 表示当前已经占用需要等待
+     * @api {post} /channel/check 1、获取通道开始双录
+     * @apiDescription 获取通道开始双录 通道号 空或者null 表示没有可用通道号
      * @apiGroup 4、Channel
      * @apiName clentCheck
      * @apiVersion 1.0.0
@@ -48,12 +48,12 @@ public class ChannelController {
      * @apiParam {String} channelNo 通道信息
      * @apiSuccess (成功响应) {String} code 请求返回码 0:成功,其它请参见文档定义
      * @apiSuccess (成功响应) {String} msg  请求返回信息
-     * @apiSuccess (成功响应) {Json} data   成功后返回参数 true false
+     * @apiSuccess (成功响应) {Json} data   成功后返回参数 通道号 空或者null 表示没有可用通道号
      * @apiSuccessExample {Json} 成功响应示例:
     {
     "code":"0",
     "msg":"success",
-    "data":true,
+    "data":1001,
     "ok":true
     }
      * @apiErrorExample {Json} 失败响应示例:
@@ -63,25 +63,6 @@ public class ChannelController {
      * "data": ""
      * }
      */
-    @RequestMapping(value = "/channel/clent/check", method = { RequestMethod.POST, RequestMethod.GET })
-    public ApiRespResult<Boolean> clentCheck(HttpServletRequest req, String channelNo) {
-        try{
-            if(channelNo == null){
-                return ApiRespResult.error("channelNo 不能为空");
-            }
-            Boolean flat = flatMap.get(channelNo);
-            if(flat != null && flat.equals(true)){
-                return ApiRespResult.success(false);
-            }else{
-                flatMap.put(channelNo,true);
-                return ApiRespResult.success(true);
-            }
-        } catch (Exception e) {
-            logger.error("clentCheck is fail...",e);
-            return ApiRespResult.error(ApiResultCode.EXCEPTION);
-        }
-    }
-
     @RequestMapping(value = "/channel/check", method = { RequestMethod.POST, RequestMethod.GET })
     public ApiRespResult<String> check(HttpServletRequest req) {
         try{
@@ -102,6 +83,28 @@ public class ChannelController {
             return ApiRespResult.error(ApiResultCode.EXCEPTION);
         }
     }
+
+    /*
+    @RequestMapping(value = "/channel/clent/check", method = { RequestMethod.POST, RequestMethod.GET })
+    public ApiRespResult<Boolean> clentCheck(HttpServletRequest req, String channelNo) {
+        try{
+            if(channelNo == null){
+                return ApiRespResult.error("channelNo 不能为空");
+            }
+            Boolean flat = flatMap.get(channelNo);
+            if(flat != null && flat.equals(true)){
+                return ApiRespResult.success(false);
+            }else{
+                flatMap.put(channelNo,true);
+                return ApiRespResult.success(true);
+            }
+        } catch (Exception e) {
+            logger.error("clentCheck is fail...",e);
+            return ApiRespResult.error(ApiResultCode.EXCEPTION);
+        }
+    }
+    */
+
 
     /**
      * @api {post} /channel/customer/check 2、调度端获取通道状态
