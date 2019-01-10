@@ -74,6 +74,7 @@ public class ChannelController {
                     if (flat == null || flat.equals(false)) {
                         flatMap.put(channelNo, true);
                         curChannelNo = channelNo;
+                        break;
                     }
                 }
             }
