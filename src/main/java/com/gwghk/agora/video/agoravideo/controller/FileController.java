@@ -38,7 +38,7 @@ public class FileController {
 
     private String[] IMG_FILE_TYPES = {".JPG", ".PNG", ".JPEG", ".WEBP"};
 
-    private long IMG_MAX_SIZE = 5 * 1024 * 1024;
+    private long IMG_MAX_SIZE = 50 * 1024 * 1024;
 
     /**
      * @api {post} /common/uploadFile 1、文件上传
