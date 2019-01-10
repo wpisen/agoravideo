@@ -131,7 +131,7 @@ public class OcrController {
     @RequestMapping(value = "/ocr/idCard", method = { RequestMethod.POST, RequestMethod.GET })
     public ApiRespResult<CommonResqDto> ocrIdCard(HttpServletRequest req, String channelNo,String imgUrl, Integer cardType) {
         try{
-            if (StringUtils.isBlank(channelNo) || StringUtils.isBlank(imgUrl)) {
+            if (StringUtils.isBlank(imgUrl)) {
                 return ApiRespResult.error(ApiResultCode.E4);
             }
             if (cardType == null) {
